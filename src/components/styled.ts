@@ -78,4 +78,25 @@ export const ColorPickerContainer = styled.div`
     }
     & .react-colorful__saturation {
   border-radius: 4px 4px 0 0;
-`
+  `
+
+export const MobileOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;

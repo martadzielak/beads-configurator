@@ -3,7 +3,7 @@ import { SizePicker } from '@/components/SizePicker';
 import { ColorPicker } from '@/components/ColorPicker';
 import { GUIButton } from '@/components/GUIButton';
 import React, { FC, useEffect } from 'react';
-import { SidebarContainer, Heading } from './styled';
+import { SidebarContainer, Heading, MobileOverlay } from './styled';
 
 interface SidebarProps {
     color: string;
@@ -35,24 +35,29 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
     }, [pipetteActive, setPipetteActive]);
 
     return (
-        <SidebarContainer>
-            <Heading>Settings </Heading>
-            <ColorPicker color={color} setColor={setColor} />
-            <SizePicker label={"Grid width"} min={2} max={100} step={1} value={gridWidth} onChange={e => setGridWidth(Number(e.target.value))} />
-            <SizePicker label={"Grid height"} min={2} max={50} step={1} value={gridHeight} onChange={e => setGridHeight(Number(e.target.value))} />
-            <SizePicker label={"Bead width"} min={0.1} max={2} step={0.01} value={pixelWidth} onChange={e => setPixelWidth(Number(e.target.value))} />
-            <SizePicker label={"Bead height"} min={0.1} max={2} step={0.01} value={pixelHeight} onChange={e => setPixelHeight(Number(e.currentTarget.value))} />
-            <GUIButton
-                onClick={() => setPipetteActive(!pipetteActive)}
-                active={pipetteActive}
-                text={pipetteActive ? 'Pipette (active)' : 'Activate Pipette'}
-            />
-            <GUIButton
-                onClick={onDownloadPNG}
-                active={false}
-                text={"Download PNG"}
-            />
-        </SidebarContainer>
+        <>
+            <MobileOverlay>
+                This app is available only on Desktop
+            </MobileOverlay>
+            <SidebarContainer>
+                <Heading>Settings </Heading>
+                <ColorPicker color={color} setColor={setColor} />
+                <SizePicker label={"Grid width"} min={2} max={100} step={1} value={gridWidth} onChange={e => setGridWidth(Number(e.target.value))} />
+                <SizePicker label={"Grid height"} min={2} max={50} step={1} value={gridHeight} onChange={e => setGridHeight(Number(e.target.value))} />
+                <SizePicker label={"Bead width"} min={0.1} max={2} step={0.01} value={pixelWidth} onChange={e => setPixelWidth(Number(e.target.value))} />
+                <SizePicker label={"Bead height"} min={0.1} max={2} step={0.01} value={pixelHeight} onChange={e => setPixelHeight(Number(e.currentTarget.value))} />
+                <GUIButton
+                    onClick={() => setPipetteActive(!pipetteActive)}
+                    active={pipetteActive}
+                    text={pipetteActive ? 'Pipette (active)' : 'Activate Pipette'}
+                />
+                <GUIButton
+                    onClick={onDownloadPNG}
+                    active={false}
+                    text={"Download PNG"}
+                />
+            </SidebarContainer>
+        </>
     );
 }
 
