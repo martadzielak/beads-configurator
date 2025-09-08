@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import './page.module.css'
 
 type SidebarProps = {
   color: string;
