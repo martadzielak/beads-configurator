@@ -10,12 +10,26 @@ export default function Home() {
   const [gridHeight, setGridHeight] = useState(19);
   const [pixelWidth, setPixelWidth] = useState(0.3);
   const [pixelHeight, setPixelHeight] = useState(0.2);
-  const [pixels, setPixels] = useState(Array(100).fill(''));
+  const [pixels, setPixels] = useState(() => {
+    // Load from localStorage if available
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('pixels');
+      if (saved) return JSON.parse(saved);
+    }
+    return Array(85 * 19).fill('');
+  });
   const [pipetteActive, setPipetteActive] = useState(false);
 
   useEffect(() => {
     setPixels(Array(gridWidth * gridHeight).fill(''));
   }, [gridWidth, gridHeight]);
+
+  useEffect(() => {
+    // Save to localStorage on every change
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('pixels', JSON.stringify(pixels));
+    }
+  }, [pixels]);
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
