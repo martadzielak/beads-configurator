@@ -8,6 +8,27 @@ export const PickerLabel = styled.label`
     color: white;
 `;
 
+export const SectionLabel = styled.label`
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+`;
+
+export const SectionText = styled.div`
+    display: block;
+    margin-bottom: 8px;
+    font-size: 10px;
+    color: white;
+`
+
+export const SectionContainer = styled.div`
+    margin-bottom: 24px;
+    padding: 12px 0;
+    border-bottom: 1px solid #444;
+`
+
 export const PickerInput = styled.input`
     width: 100%;
     padding: 8px;
