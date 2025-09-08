@@ -1,7 +1,8 @@
 "use client";
-import { Canvas } from '@react-three/fiber';
-import { useRef } from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
+import React, { useRef, useImperativeHandle, forwardRef } from 'react';
 import { GridContainer } from '@/components/styled';
+import * as THREE from 'three';
 
 type GridProps = {
     gridWidth: number;
@@ -13,18 +14,77 @@ type GridProps = {
     setPixels: (pixels: string[]) => void;
 };
 
-export const Grid = ({ gridWidth, gridHeight, pixelWidth, pixelHeight, color, pixels, setPixels, pipetteActive, setColor }: GridProps & { pipetteActive: boolean, setColor: (c: string) => void }) => {
-    const containerRef = useRef<HTMLDivElement>(null);
+const DownloadHelper = ({ triggerDownload }: { triggerDownload?: () => void }) => {
+    const { gl, scene, camera } = useThree();
+    React.useEffect(() => {
+        if (!triggerDownload) return;
+        gl.render(scene, camera);
+        const url = gl.domElement.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'grid.png';
+        a.click();
+        triggerDownload();
+    }, [triggerDownload, gl, scene, camera]);
+    return null;
+};
+
+const DownloadPNGHelper = ({ downloadRequest, setDownloadRequest }: { downloadRequest: boolean, setDownloadRequest: (v: boolean) => void }) => {
+    const { gl, scene, camera } = useThree();
+    React.useEffect(() => {
+        if (downloadRequest) {
+            gl.render(scene, camera);
+            const url = gl.domElement.toDataURL('image/png');
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'grid.png';
+            a.click();
+            setDownloadRequest(false);
+        }
+    }, [downloadRequest, gl, scene, camera, setDownloadRequest]);
+    return null;
+};
+
+export const Grid = forwardRef(({
+    gridWidth,
+    gridHeight,
+    pixelWidth,
+    pixelHeight,
+    color,
+    pixels,
+    setPixels,
+    pipetteActive,
+    setColor,
+    onDownloadPNG,
+    downloadRequest,
+    setDownloadRequest
+}: GridProps & {
+    pipetteActive: boolean,
+    setColor: (c: string) => void,
+    onDownloadPNG?: () => void,
+    downloadRequest: boolean,
+    setDownloadRequest: (v: boolean) => void
+}, ref) => {
+    const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+    useImperativeHandle(ref, () => ({
+        getCanvasDataURL: () => {
+            if (!rendererRef.current) return null;
+            return rendererRef.current.domElement.toDataURL('image/png');
+        }
+    }));
     const handlePixelClick = (idx: number) => {
         const newPixels = [...pixels];
         newPixels[idx] = color;
         setPixels(newPixels);
     };
     return (
-        <GridContainer
-            ref={containerRef}
-        >
-            <Canvas orthographic camera={{ zoom: 50, position: [0, 0, 100] }} style={{ width: '100%', height: '100vh', background: 'black' }}>
+        <GridContainer>
+            <Canvas
+                orthographic
+                camera={{ zoom: 50, position: [0, 0, 100] }}
+                style={{ width: '100%', height: '100vh', background: 'black' }}
+                onCreated={({ gl }) => { rendererRef.current = gl; }}
+            >
                 {/* Render grid pixels as mesh rectangles with wireframe, but filled if colored */}
                 {Array.from({ length: gridWidth * gridHeight }).map((_, idx) => {
                     const x = idx % gridWidth;
@@ -47,7 +107,11 @@ export const Grid = ({ gridWidth, gridHeight, pixelWidth, pixelHeight, color, pi
                         </mesh>
                     );
                 })}
+                {onDownloadPNG && <DownloadHelper triggerDownload={onDownloadPNG} />}
+                <DownloadPNGHelper downloadRequest={downloadRequest} setDownloadRequest={setDownloadRequest} />
             </Canvas>
         </GridContainer>
     );
-}
+});
+
+Grid.displayName = "Grid";

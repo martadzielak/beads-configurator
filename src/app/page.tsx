@@ -1,7 +1,7 @@
 "use client";
 import { Sidebar } from "@/components/Sidebar";
 import { Grid } from "@/components/Grid";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 
 export default function Home() {
@@ -19,6 +19,7 @@ export default function Home() {
     return Array(85 * 19).fill('');
   });
   const [pipetteActive, setPipetteActive] = useState(false);
+  const [downloadRequest, setDownloadRequest] = useState(false);
 
   useEffect(() => {
     setPixels(Array(gridWidth * gridHeight).fill(''));
@@ -46,6 +47,7 @@ export default function Home() {
         setPixelHeight={setPixelHeight}
         pipetteActive={pipetteActive}
         setPipetteActive={setPipetteActive}
+        onDownloadPNG={() => setDownloadRequest(true)}
       />
       <div style={{ width: '85%', height: '100vh' }}>
         <Grid
@@ -58,6 +60,8 @@ export default function Home() {
           setPixels={setPixels}
           pipetteActive={pipetteActive}
           setColor={setColor}
+          downloadRequest={downloadRequest}
+          setDownloadRequest={setDownloadRequest}
         />
       </div>
     </div>

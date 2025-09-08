@@ -1,16 +1,16 @@
 import { FC } from "react";
 import { Button, PickerContainer } from "./styled";
 
-interface PipetteButtonProps {
-    onClick: () => void;
+interface ButtonProps {
+    onClick: (() => void) | undefined;
     active: boolean;
     text: string;
 }
 
-export const PipetteButton: FC<PipetteButtonProps> = ({ onClick, active, text }) => <PickerContainer>
+export const GUIButton: FC<ButtonProps> = ({ onClick, active, text }) => <PickerContainer>
     <Button
         onClick={onClick}
-        active={active}
+        {...(active ? { 'data-active': 'true' } : {})}
     >
         {text}
     </Button>
