@@ -86,7 +86,7 @@ export const MobileOverlay = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.85);
+  background: black;
   color: #fff;
   z-index: 9999;
   display: flex;
