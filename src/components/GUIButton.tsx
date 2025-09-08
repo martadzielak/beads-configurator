@@ -10,6 +10,7 @@ interface ButtonProps {
 export const GUIButton: FC<ButtonProps> = ({ onClick, active, text }) => <PickerContainer>
     <Button
         onClick={onClick}
+        active={active}
         {...(active ? { 'data-active': 'true' } : {})}
     >
         {text}

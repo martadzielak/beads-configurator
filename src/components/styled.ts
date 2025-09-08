@@ -36,11 +36,11 @@ export const SidebarContainer = styled.div`
     overflow-x: hidden;
 `;
 
-export const Button = styled.button<{ active?: boolean }>`
+export const Button = styled.button<{ active: boolean }>`
   background: ${props => props.active ? 'white' : '#242424'};
     color: ${props => props.active ? 'black' : 'white'};  
     padding: 8px 16px;
-    border: ${props => props.active ? 'none' : "white 1px solid"};
+    border: white 1px solid;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
@@ -99,4 +99,17 @@ export const MobileOverlay = styled.div`
   @media (min-width: 768px) {
     display: none;
   }
+`;
+
+export const CornerInstruction = styled.div`
+  position: fixed;
+  top: 16px;
+  right: 24px;
+  color: #fff;
+  font-size: 0.95rem;
+  background: rgba(0,0,0,0.3);
+  padding: 6px 12px;
+  border-radius: 8px;
+  z-index: 100;
+  pointer-events: none;
 `;

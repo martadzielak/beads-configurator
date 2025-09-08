@@ -1,7 +1,8 @@
 "use client";
 import { Sidebar } from "@/components/Sidebar";
 import { Grid } from "@/components/Grid";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { CornerInstruction } from "@/components/styled";
 
 
 export default function Home() {
@@ -49,21 +50,22 @@ export default function Home() {
         setPipetteActive={setPipetteActive}
         onDownloadPNG={() => setDownloadRequest(true)}
       />
-      <div style={{ width: '85%', height: '100vh' }}>
-        <Grid
-          gridWidth={gridWidth}
-          gridHeight={gridHeight}
-          pixelWidth={pixelWidth}
-          pixelHeight={pixelHeight}
-          color={color}
-          pixels={pixels}
-          setPixels={setPixels}
-          pipetteActive={pipetteActive}
-          setColor={setColor}
-          downloadRequest={downloadRequest}
-          setDownloadRequest={setDownloadRequest}
-        />
-      </div>
+      <Grid
+        gridWidth={gridWidth}
+        gridHeight={gridHeight}
+        pixelWidth={pixelWidth}
+        pixelHeight={pixelHeight}
+        color={color}
+        pixels={pixels}
+        setPixels={setPixels}
+        pipetteActive={pipetteActive}
+        setColor={setColor}
+        downloadRequest={downloadRequest}
+        setDownloadRequest={setDownloadRequest}
+      />
+      <CornerInstruction>
+        [SHIFT] Activate/disactivate pipette
+      </CornerInstruction>
     </div>
   );
 }
