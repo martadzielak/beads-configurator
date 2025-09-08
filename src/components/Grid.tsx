@@ -29,7 +29,6 @@ export const Grid = ({ gridWidth, gridHeight, pixelWidth, pixelHeight, color, pi
                 {Array.from({ length: gridWidth * gridHeight }).map((_, idx) => {
                     const x = idx % gridWidth;
                     const y = Math.floor(idx / gridWidth);
-                    // Center grid
                     const px = (x + 0.5) * pixelWidth - (gridWidth * pixelWidth) / 2;
                     const py = (y + 0.5) * pixelHeight - (gridHeight * pixelHeight) / 2;
                     const isFilled = !!pixels[idx];
