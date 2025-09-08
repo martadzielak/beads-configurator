@@ -46,8 +46,10 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
                     <SizePicker label={"Grid width"} min={2} max={100} step={1} value={gridWidth} onChange={e => setGridWidth(Number(e.target.value))} />
                     <SizePicker label={"Grid height"} min={2} max={50} step={1} value={gridHeight} onChange={e => setGridHeight(Number(e.target.value))} />
                 </GUISectionContainer>
-                <SizePicker label={"Bead width"} min={0.1} max={2} step={0.01} value={pixelWidth} onChange={e => setPixelWidth(Number(e.target.value))} />
-                <SizePicker label={"Bead height"} min={0.1} max={2} step={0.01} value={pixelHeight} onChange={e => setPixelHeight(Number(e.currentTarget.value))} />
+                <GUISectionContainer label="Beads dimensions" text="Set bead size in cm">
+                    <SizePicker label={"Bead width"} min={0.1} max={2} step={0.01} value={pixelWidth} onChange={e => setPixelWidth(Number(e.target.value))} />
+                    <SizePicker label={"Bead height"} min={0.1} max={2} step={0.01} value={pixelHeight} onChange={e => setPixelHeight(Number(e.currentTarget.value))} />
+                </GUISectionContainer>
                 <ColorPicker color={color} setColor={setColor} />
                 <GUIButton
                     onClick={() => setPipetteActive(!pipetteActive)}
