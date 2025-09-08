@@ -1,7 +1,8 @@
 "use client";
-import { Canvas, useThree } from '@react-three/fiber';
-import React, { useRef, useImperativeHandle, forwardRef } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { useRef, useImperativeHandle, forwardRef, useState, useEffect } from 'react';
 import { GridContainer } from '@/components/styled';
+import { DownloadHelper, DownloadPNGHelper } from '@/helpers/helpers';
 import * as THREE from 'three';
 
 type GridProps = {
@@ -12,37 +13,6 @@ type GridProps = {
     color: string;
     pixels: string[];
     setPixels: (pixels: string[]) => void;
-};
-
-const DownloadHelper = ({ triggerDownload }: { triggerDownload?: () => void }) => {
-    const { gl, scene, camera } = useThree();
-    React.useEffect(() => {
-        if (!triggerDownload) return;
-        gl.render(scene, camera);
-        const url = gl.domElement.toDataURL('image/png');
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'grid.png';
-        a.click();
-        triggerDownload();
-    }, [triggerDownload, gl, scene, camera]);
-    return null;
-};
-
-const DownloadPNGHelper = ({ downloadRequest, setDownloadRequest }: { downloadRequest: boolean, setDownloadRequest: (v: boolean) => void }) => {
-    const { gl, scene, camera } = useThree();
-    React.useEffect(() => {
-        if (downloadRequest) {
-            gl.render(scene, camera);
-            const url = gl.domElement.toDataURL('image/png');
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'grid.png';
-            a.click();
-            setDownloadRequest(false);
-        }
-    }, [downloadRequest, gl, scene, camera, setDownloadRequest]);
-    return null;
 };
 
 export const Grid = forwardRef(({
@@ -65,6 +35,15 @@ export const Grid = forwardRef(({
     downloadRequest: boolean,
     setDownloadRequest: (v: boolean) => void
 }, ref) => {
+    const [mouseDown, setMouseDown] = useState(false);
+
+    useEffect(() => {
+        const handleMouseUp = () => setMouseDown(false);
+        window.addEventListener('mouseup', handleMouseUp);
+        return () => window.removeEventListener('mouseup', handleMouseUp);
+    }, []);
+
+
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
     useImperativeHandle(ref, () => ({
         getCanvasDataURL: () => {
@@ -72,11 +51,21 @@ export const Grid = forwardRef(({
             return rendererRef.current.domElement.toDataURL('image/png');
         }
     }));
+
+
+    const handlePixelPaint = (idx: number) => {
+        if (!mouseDown) return;
+        const newPixels = [...pixels];
+        newPixels[idx] = color;
+        setPixels(newPixels);
+    };
+
     const handlePixelClick = (idx: number) => {
         const newPixels = [...pixels];
         newPixels[idx] = color;
         setPixels(newPixels);
     };
+
     return (
         <GridContainer>
             <Canvas
@@ -84,8 +73,9 @@ export const Grid = forwardRef(({
                 camera={{ zoom: 50, position: [0, 0, 100] }}
                 style={{ width: '100%', height: '100vh', background: 'black' }}
                 onCreated={({ gl }) => { rendererRef.current = gl; }}
+                onPointerDown={() => setMouseDown(true)}
+                onPointerUp={() => setMouseDown(false)}
             >
-                {/* Render grid pixels as mesh rectangles with wireframe, but filled if colored */}
                 {Array.from({ length: gridWidth * gridHeight }).map((_, idx) => {
                     const x = idx % gridWidth;
                     const y = Math.floor(idx / gridWidth);
@@ -97,6 +87,7 @@ export const Grid = forwardRef(({
                             key={idx}
                             position={[px, py, 0]}
                             onClick={() => pipetteActive && isFilled ? setColor(pixels[idx]) : !pipetteActive ? handlePixelClick(idx) : undefined}
+                            onPointerOver={() => !pipetteActive && handlePixelPaint(idx)}
                         >
                             <boxGeometry args={[pixelWidth, pixelHeight, 0.1]} />
                             {isFilled ? (
