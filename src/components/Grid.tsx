@@ -95,7 +95,7 @@ export const Grid = forwardRef(({
                                 {isFilled ? (
                                     <meshBasicMaterial color={pixels[idx]} />
                                 ) : (
-                                    <meshBasicMaterial color={'#aaa'} wireframe wireframeLinewidth={2} wireframeLinejoin="round" wireframeLinecap="round" />
+                                    <meshBasicMaterial color={'#7a7a7a'} wireframe wireframeLinewidth={2} wireframeLinejoin="round" wireframeLinecap="round" />
                                 )}
                             </mesh>
                         );
