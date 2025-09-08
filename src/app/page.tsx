@@ -33,6 +33,21 @@ export default function Home() {
     }
   }, [pixels]);
 
+  useEffect(() => {
+    // Restore from localStorage when grid size changes
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('pixels');
+      if (saved) {
+        const arr = JSON.parse(saved);
+        if (Array.isArray(arr) && arr.length === gridWidth * gridHeight) {
+          setPixels(arr);
+          return;
+        }
+      }
+    }
+    setPixels(Array(gridWidth * gridHeight).fill(''));
+  }, [gridWidth, gridHeight]);
+
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
       <Sidebar
