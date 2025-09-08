@@ -5,7 +5,7 @@ export const PickerLabel = styled.label`
     margin-bottom: 8px;
     font-weight: bold;
     font-size: 14px;
-    color: #333;
+    color: white;
 `;
 
 export const PickerInput = styled.input`
@@ -15,10 +15,12 @@ export const PickerInput = styled.input`
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
+    background-color: #242424;
+    color: white;
     &:focus {
-        border-color: #0070f3;
+        border-color: white;
         outline: none;
-        box-shadow: 0 0 5px rgba(0, 112, 243, 0.5);
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
     }
 `;
 
@@ -28,42 +30,35 @@ export const SidebarContainer = styled.div`
   width: 15%;   
     padding: 20px;
     box-sizing: border-box;
-    background: #f5f5f5;
+    background: #242424;
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
-    border-right: 1px solid #ddd;
 `;
 
 export const Button = styled.button<{ active?: boolean }>`
-  background: ${props => props.active ? '#0070f3' : '#eee'};
-    color: ${props => props.active ? '#fff' : '#333'};  
+  background: ${props => props.active ? 'white' : '#242424'};
+    color: ${props => props.active ? 'black' : 'white'};  
     padding: 8px 16px;
-    border: none;
+    border: ${props => props.active ? 'none' : "white 1px solid"};
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
     &:hover {
-        background: ${props => props.active ? '#005bb5' : '#ddd'};
+        background: ${props => props.active ? 'white' : '#242424'};
     }
 `;
 
 export const GridContainer = styled.div`
-    background: #ccc;
+    background: black;
     margin: 0 auto;
     user-select: none;
-    border: 1px solid #bbb;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
     cursor: pointer;
-    & > div {
-        background: #fff;
-        box-sizing: border-box;
-    }
 `;
 
 export const Heading = styled.h1`
     font-size: 24px;
-    color: #333;
+    color: white;
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
