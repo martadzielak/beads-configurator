@@ -44,6 +44,8 @@ export const Button = styled.button`
   background: #242424;
   color: white;
   padding: 8px 16px;
+  width: 100%;
+  font-weight: bold;
   border: white 1px solid;
   border-radius: 4px;
   cursor: pointer;
