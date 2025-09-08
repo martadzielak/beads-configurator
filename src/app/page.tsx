@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { HexColorPicker } from 'react-colorful';
+import './page.module.css'
 
 type SidebarProps = {
   color: string;
@@ -20,25 +20,21 @@ type SidebarProps = {
 
 function Sidebar({ color, setColor, gridWidth, setGridWidth, gridHeight, setGridHeight, pixelWidth, setPixelWidth, pixelHeight, setPixelHeight, pipetteActive, setPipetteActive }: SidebarProps) {
   return (
-    <div style={{ width: '15%', padding: 20, boxSizing: 'border-box', background: '#f5f5f5', height: '100vh' }}>
-      <h2>Settings</h2>
-      <div style={{ marginBottom: 20 }}>
-        <label>Color Picker</label>
-        <HexColorPicker color={color} onChange={setColor} />
-      </div>
+    <SidebarContainer>
+      <Heading>Settings</Heading>
+      <ColorPicker color={color} setColor={setColor} />
       <SizePicker label={"Grid width"} min={2} max={100} step={1} value={gridWidth} onChange={e => setGridWidth(Number(e.target.value))} />
       <SizePicker label={"Grid height"} min={2} max={50} step={1} value={gridHeight} onChange={e => setGridHeight(Number(e.target.value))} />
       <SizePicker label={"Bead width"} min={0.1} max={2} step={0.1} value={pixelWidth} onChange={e => setPixelWidth(Number(e.target.value))} />
       <SizePicker label={"Bead height"} min={0.1} max={2} step={0.1} value={pixelHeight} onChange={e => setPixelHeight(Number(e.currentTarget.value))} />
       <div style={{ marginBottom: 20 }}>
-        <button
-          style={{ background: pipetteActive ? '#0070f3' : '#eee', color: pipetteActive ? '#fff' : '#333', padding: '8px 16px', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+        <Button
           onClick={() => setPipetteActive(!pipetteActive)}
         >
           {pipetteActive ? 'Pipette (active)' : 'Activate Pipette'}
-        </button>
+        </Button>
       </div>
-    </div>
+    </SidebarContainer>
   );
 }
 
@@ -54,6 +50,9 @@ type GridProps = {
 
 import { useRef } from 'react';
 import { SizePicker } from '@/components/SizePicker';
+import { Button, GridContainer, Heading, PickerLabel, SidebarContainer } from '@/components/styled';
+import { Color } from 'three';
+import { ColorPicker } from '@/components/ColorPicker';
 
 function Grid({ gridWidth, gridHeight, pixelWidth, pixelHeight, color, pixels, setPixels, pipetteActive, setColor }: GridProps & { pipetteActive: boolean, setColor: (c: string) => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -65,14 +64,8 @@ function Grid({ gridWidth, gridHeight, pixelWidth, pixelHeight, color, pixels, s
 
 
   return (
-    <div
+    <GridContainer
       ref={containerRef}
-      style={{
-        width: '100%',
-        height: '100vh',
-        background: '#fff',
-        cursor: pipetteActive ? 'crosshair' : 'pointer'
-      }}
     >
       <Canvas orthographic camera={{ zoom: 50, position: [0, 0, 100] }} style={{ width: '100%', height: '100vh', background: '#fff' }}>
         {/* Render grid pixels as mesh rectangles with wireframe, but filled if colored */}
@@ -99,7 +92,7 @@ function Grid({ gridWidth, gridHeight, pixelWidth, pixelHeight, color, pixels, s
           );
         })}
       </Canvas>
-    </div>
+    </GridContainer>
   );
 }
 

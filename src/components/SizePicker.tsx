@@ -1,4 +1,5 @@
 import { ChangeEvent } from "react";
+import { ColorPickerContainer, PickerInput, PickerLabel } from "./styled";
 
 interface SizePickerProps {
     label: string;
@@ -9,7 +10,7 @@ interface SizePickerProps {
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const SizePicker: React.FC<SizePickerProps> = ({ label, min, max, step, value, onChange }) => <div style={{ marginBottom: 20 }}>
-    <label>{label}</label>
-    <input type="number" min={min} max={max} step={step} value={value} onChange={onChange} />
-</div>
+export const SizePicker: React.FC<SizePickerProps> = ({ label, min, max, step, value, onChange }) => <ColorPickerContainer>
+    <PickerLabel>{label}</PickerLabel>
+    <PickerInput type="number" min={min} max={max} step={step} value={value} onChange={onChange} />
+</ColorPickerContainer>
