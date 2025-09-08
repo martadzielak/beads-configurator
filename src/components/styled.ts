@@ -36,17 +36,24 @@ export const SidebarContainer = styled.div`
     overflow-x: hidden;
 `;
 
-export const Button = styled.button<{ active: boolean }>`
-  background: ${props => props.active ? 'white' : '#242424'};
-    color: ${props => props.active ? 'black' : 'white'};  
-    padding: 8px 16px;
-    border: white 1px solid;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    &:hover {
-        background: ${props => props.active ? 'white' : '#242424'};
+export const Button = styled.button`
+  &[data-active="true"] {
+    background: white;
+    color: black;
+  }
+  background: #242424;
+  color: white;
+  padding: 8px 16px;
+  border: white 1px solid;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  &:hover {
+    &[data-active="true"] {
+      background: white;
     }
+    background: #242424;
+  }
 `;
 
 export const GridContainer = styled.div`
