@@ -1,8 +1,8 @@
 "use client";
 import { Canvas } from '@react-three/fiber';
-import { useRef, useImperativeHandle, forwardRef, useState, useEffect } from 'react';
+import { useRef, useImperativeHandle, forwardRef, useState, useEffect, useMemo } from 'react';
 import { GridContainer } from '@/components/styled';
-import { DownloadHelper, DownloadPNGHelper } from '@/helpers/helpers';
+import { calculatePixelOutlineLines, DownloadHelper, DownloadPNGHelper } from '@/helpers/helpers';
 import * as THREE from 'three';
 
 type GridProps = {
@@ -13,6 +13,7 @@ type GridProps = {
     color: string;
     pixels: string[];
     setPixels: (pixels: string[]) => void;
+    showGridOverlay: boolean;
 };
 
 export const Grid = forwardRef(({
@@ -27,13 +28,15 @@ export const Grid = forwardRef(({
     setColor,
     onDownloadPNG,
     downloadRequest,
-    setDownloadRequest
+    setDownloadRequest,
+    showGridOverlay
 }: GridProps & {
     pipetteActive: boolean,
     setColor: (c: string) => void,
     onDownloadPNG?: () => void,
     downloadRequest: boolean,
-    setDownloadRequest: (v: boolean) => void
+    setDownloadRequest: (v: boolean) => void,
+    showGridOverlay: boolean
 }, ref) => {
     const [mouseDown, setMouseDown] = useState(false);
 
@@ -43,7 +46,6 @@ export const Grid = forwardRef(({
         return () => window.removeEventListener('mouseup', handleMouseUp);
     }, []);
 
-
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
     useImperativeHandle(ref, () => ({
         getCanvasDataURL: () => {
@@ -51,7 +53,6 @@ export const Grid = forwardRef(({
             return rendererRef.current.domElement.toDataURL('image/png');
         }
     }));
-
 
     const handlePixelPaint = (idx: number) => {
         if (!mouseDown) return;
@@ -65,6 +66,10 @@ export const Grid = forwardRef(({
         newPixels[idx] = color;
         setPixels(newPixels);
     };
+
+    const pixelOutlineLines = useMemo(() => {
+        return calculatePixelOutlineLines(gridWidth, gridHeight, pixelWidth, pixelHeight);
+    }, [gridWidth, gridHeight, pixelWidth, pixelHeight]);
 
     return (
         <div style={{ width: '85%', height: '100vh', position: 'relative' }}>
@@ -86,20 +91,30 @@ export const Grid = forwardRef(({
                         const isFilled = !!pixels[idx];
                         return (
                             <mesh
-                                key={idx}
+                                key={`color-${idx}`}
                                 position={[px, py, 0]}
                                 onClick={() => pipetteActive && isFilled ? setColor(pixels[idx]) : !pipetteActive ? handlePixelClick(idx) : undefined}
                                 onPointerOver={() => !pipetteActive && handlePixelPaint(idx)}
                             >
                                 <boxGeometry args={[pixelWidth, pixelHeight, 0.1]} />
-                                {isFilled ? (
-                                    <meshBasicMaterial color={pixels[idx]} />
-                                ) : (
-                                    <meshBasicMaterial color={'#7a7a7a'} wireframe wireframeLinewidth={2} wireframeLinejoin="round" wireframeLinecap="round" />
+                                {isFilled && (
+                                    <meshBasicMaterial color={pixels[idx]} transparent opacity={1} />
                                 )}
                             </mesh>
+
                         );
                     })}
+                    {showGridOverlay && (
+                        <lineSegments>
+                            <bufferGeometry>
+                                <bufferAttribute
+                                    attach="attributes-position"
+                                    args={[new Float32Array(pixelOutlineLines), 3]}
+                                />
+                            </bufferGeometry>
+                            <lineBasicMaterial color="#7a7a7a" linewidth={0.3} />
+                        </lineSegments>
+                    )}
                     {onDownloadPNG && <DownloadHelper triggerDownload={onDownloadPNG} />}
                     <DownloadPNGHelper downloadRequest={downloadRequest} setDownloadRequest={setDownloadRequest} />
                 </Canvas>

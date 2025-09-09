@@ -20,9 +20,11 @@ interface SidebarProps {
     pipetteActive: boolean;
     setPipetteActive: (active: boolean) => void;
     onDownloadPNG?: () => void;
+    showGridOverlay: boolean;
+    setShowGridOverlay: (v: boolean) => void;
 };
 
-export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridWidth, gridHeight, setGridHeight, pixelWidth, setPixelWidth, pixelHeight, setPixelHeight, pipetteActive, setPipetteActive, onDownloadPNG }: SidebarProps) => {
+export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridWidth, gridHeight, setGridHeight, pixelWidth, setPixelWidth, pixelHeight, setPixelHeight, pipetteActive, setPipetteActive, onDownloadPNG, showGridOverlay, setShowGridOverlay }: SidebarProps) => {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Shift') {
@@ -55,6 +57,11 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
                     onClick={() => setPipetteActive(!pipetteActive)}
                     active={pipetteActive}
                     text={pipetteActive ? 'Pipette (active)' : 'Activate Pipette'}
+                />
+                <GUIButton
+                    onClick={() => setShowGridOverlay(!showGridOverlay)}
+                    active={showGridOverlay}
+                    text={showGridOverlay ? 'Hide Grid Overlay' : 'Show Grid Overlay'}
                 />
                 <GUIButton
                     onClick={onDownloadPNG}

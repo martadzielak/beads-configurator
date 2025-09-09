@@ -20,6 +20,7 @@ export default function Home() {
     return Array(85 * 19).fill('');
   });
   const [pipetteActive, setPipetteActive] = useState(false);
+  const [showGridOverlay, setShowGridOverlay] = useState(false);
   const [downloadRequest, setDownloadRequest] = useState(false);
 
   useEffect(() => {
@@ -63,6 +64,8 @@ export default function Home() {
         setPixelHeight={setPixelHeight}
         pipetteActive={pipetteActive}
         setPipetteActive={setPipetteActive}
+        showGridOverlay={showGridOverlay}
+        setShowGridOverlay={setShowGridOverlay}
         onDownloadPNG={() => setDownloadRequest(true)}
       />
       <Grid
@@ -75,6 +78,7 @@ export default function Home() {
         setPixels={setPixels}
         pipetteActive={pipetteActive}
         setColor={setColor}
+        showGridOverlay={showGridOverlay}
         downloadRequest={downloadRequest}
         setDownloadRequest={setDownloadRequest}
       />

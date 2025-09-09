@@ -31,3 +31,20 @@ export const DownloadPNGHelper = ({ downloadRequest, setDownloadRequest }: { dow
     }, [downloadRequest, gl, scene, camera, setDownloadRequest]);
     return null;
 };
+
+export const calculatePixelOutlineLines = (gridWidth: number, gridHeight: number, pixelWidth: number, pixelHeight: number) => {
+    const lines = [];
+    const w = gridWidth * pixelWidth;
+    const h = gridHeight * pixelHeight;
+    // Vertical lines
+    for (let i = 0; i <= gridWidth; i++) {
+        const x = -w / 2 + i * pixelWidth;
+        lines.push(x, -h / 2, 0.1, x, h / 2, 0.1);
+    }
+    // Horizontal lines
+    for (let j = 0; j <= gridHeight; j++) {
+        const y = -h / 2 + j * pixelHeight;
+        lines.push(-w / 2, y, 0.1, w / 2, y, 0.1);
+    }
+    return lines.flat();
+}
