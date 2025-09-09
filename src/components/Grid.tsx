@@ -90,18 +90,21 @@ export const Grid = forwardRef(({
                         const py = (y + 0.5) * pixelHeight / 10 - (gridHeight * pixelHeight / 10) / 2;
                         const isFilled = !!pixels[idx];
                         return (
-                            <mesh
-                                key={`color-${idx}`}
-                                position={[px, py, 0]}
-                                onClick={() => pipetteActive && isFilled ? setColor(pixels[idx]) : !pipetteActive ? handlePixelClick(idx) : undefined}
-                                onPointerOver={() => !pipetteActive && handlePixelPaint(idx)}
-                            >
-                                <boxGeometry args={[pixelWidth / 10, pixelHeight / 10, 0.1]} />
-                                {isFilled && (
-                                    <meshBasicMaterial color={pixels[idx]} transparent opacity={1} />
-                                )}
-                            </mesh>
-
+                            <>
+                                <mesh
+                                    key={`color-${idx}`}
+                                    position={[px, py, 0]}
+                                    onClick={() => pipetteActive && isFilled ? setColor(pixels[idx]) : !pipetteActive ? handlePixelClick(idx) : undefined}
+                                    onPointerOver={() => !pipetteActive && handlePixelPaint(idx)}
+                                >
+                                    <boxGeometry args={[pixelWidth / 10, pixelHeight / 10, 0.1]} />
+                                    {isFilled ? (
+                                        <meshBasicMaterial color={pixels[idx]} transparent opacity={1} />
+                                    ) : (
+                                        <meshBasicMaterial color="#7a7a7a" wireframe />
+                                    )}
+                                </mesh>
+                            </>
                         );
                     })}
                     {showGridOverlay && (
