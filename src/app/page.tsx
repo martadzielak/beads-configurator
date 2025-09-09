@@ -3,6 +3,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { Grid } from "@/components/Grid";
 import { useState, useEffect } from "react";
 import { CornerInstruction } from "@/components/styled";
+import { DownloadButton } from "@/components/DownloadButton";
 
 
 export default function Home() {
@@ -66,7 +67,6 @@ export default function Home() {
         setPipetteActive={setPipetteActive}
         showGridOverlay={showGridOverlay}
         setShowGridOverlay={setShowGridOverlay}
-        onDownloadPNG={() => setDownloadRequest(true)}
       />
       <Grid
         gridWidth={gridWidth}
@@ -85,6 +85,9 @@ export default function Home() {
       <CornerInstruction>
         [SHIFT] Activate/disactivate pipette
       </CornerInstruction>
+      <DownloadButton
+        onClick={() => setDownloadRequest(true)}
+      />
     </div>
   );
 }

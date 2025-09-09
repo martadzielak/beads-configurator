@@ -1,11 +1,17 @@
 import styled from "styled-components";
 
+const white = "#fbfbfb"
+const black = "black"
+const darkGray = "#242424"
+const mediumGray = "#444"
+const lightGray = "#ccc"
+
 export const PickerLabel = styled.label`
   display: block;
     margin-bottom: 8px;
     font-weight: bold;
     font-size: 14px;
-    color: white;
+    color: ${white};
 `;
 
 export const SectionLabel = styled.label`
@@ -13,30 +19,30 @@ export const SectionLabel = styled.label`
     margin-bottom: 8px;
     font-weight: bold;
     font-size: 18px;
-    color: white;
+    color: ${white};
 `;
 
 export const SectionText = styled.div`
     display: block;
     margin-bottom: 8px;
     font-size: 10px;
-    color: white;
+    color: ${white};
 `
 
 export const SectionContainer = styled.div`
     margin-bottom: 24px;
     padding: 12px 0;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid ${mediumGray};
 `
 
 export const PickerInput = styled.input`
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
-    border: 1px solid #ccc;
+    border: 1px solid ${lightGray};
     border-radius: 4px;
     font-size: 14px;
-    background-color: #242424;
+    background-color: ${darkGray};
     color: white;
     &:focus {
         border-color: white;
@@ -51,7 +57,7 @@ export const SidebarContainer = styled.div`
   width: 15%;   
     padding: 20px;
     box-sizing: border-box;
-    background: #242424;
+    background: ${darkGray};
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -59,10 +65,10 @@ export const SidebarContainer = styled.div`
 
 export const Button = styled.button`
   &[data-active="true"] {
-    background: white;
-    color: black;
+    background: ${white};
+    color: ${black};
   }
-  background: #242424;
+  background: ${darkGray};
   color: white;
   padding: 8px 16px;
   width: 100%;
@@ -73,9 +79,9 @@ export const Button = styled.button`
   font-size: 14px;
   &:hover {
     &[data-active="true"] {
-      background: white;
+      background: ${white};
     }
-    background: #242424;
+    background: ${darkGray};
   }
 `;
 
@@ -88,7 +94,7 @@ export const GridContainer = styled.div`
 
 export const Heading = styled.h1`
     font-size: 24px;
-    color: white;
+    color: ${white};
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -100,14 +106,14 @@ export const ColorPickerContainer = styled.div`
     margin-top: 10px;
 
     & .react-colorful {
-  width: 100%;
-    height: 200px;
+      width: 100%;
+      height: 200px;
     }
     & .react-colorful__hue {
-  border-radius: 0 0 4px 4px;
+      border-radius: 0 0 4px 4px;
     }
     & .react-colorful__saturation {
-  border-radius: 4px 4px 0 0;
+      border-radius: 4px 4px 0 0;
   `
 
 export const MobileOverlay = styled.div`
@@ -116,8 +122,8 @@ export const MobileOverlay = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: black;
-  color: #fff;
+  background: ${black};
+  color: ${white};
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -135,11 +141,32 @@ export const CornerInstruction = styled.div`
   position: fixed;
   top: 16px;
   right: 24px;
-  color: #fff;
+  color: ${white};
   font-size: 0.95rem;
   background: rgba(0,0,0,0.3);
   padding: 6px 12px;
   border-radius: 8px;
   z-index: 100;
   pointer-events: none;
+`;
+
+export const DownloadButtonWrapper = styled.button`
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    z-index: 1000;
+    background: white;
+    color: #222;
+    border: none;
+    border-radius: 4px;
+    padding: 16px 28px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+    &:hover {
+        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+        background: #f5f5f5;
+    }
 `;

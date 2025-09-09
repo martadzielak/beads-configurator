@@ -24,7 +24,7 @@ interface SidebarProps {
     setShowGridOverlay: (v: boolean) => void;
 };
 
-export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridWidth, gridHeight, setGridHeight, pixelWidth, setPixelWidth, pixelHeight, setPixelHeight, pipetteActive, setPipetteActive, onDownloadPNG, showGridOverlay, setShowGridOverlay }: SidebarProps) => {
+export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridWidth, gridHeight, setGridHeight, pixelWidth, setPixelWidth, pixelHeight, setPixelHeight, pipetteActive, setPipetteActive, showGridOverlay, setShowGridOverlay }: SidebarProps) => {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Shift') {
@@ -62,11 +62,6 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
                     onClick={() => setShowGridOverlay(!showGridOverlay)}
                     active={showGridOverlay}
                     text={showGridOverlay ? 'Hide Grid Overlay' : 'Show Grid Overlay'}
-                />
-                <GUIButton
-                    onClick={onDownloadPNG}
-                    active={false}
-                    text={"Download PNG"}
                 />
             </SidebarContainer>
         </>
