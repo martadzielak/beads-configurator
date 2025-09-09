@@ -9,8 +9,8 @@ export default function Home() {
   const [color, setColor] = useState('#ff0000');
   const [gridWidth, setGridWidth] = useState(85);
   const [gridHeight, setGridHeight] = useState(19);
-  const [pixelWidth, setPixelWidth] = useState(0.3);
-  const [pixelHeight, setPixelHeight] = useState(0.2);
+  const [pixelWidth, setPixelWidth] = useState(3);
+  const [pixelHeight, setPixelHeight] = useState(2);
   const [pixels, setPixels] = useState(() => {
     // Load from localStorage if available
     if (typeof window !== 'undefined') {
