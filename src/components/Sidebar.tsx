@@ -27,15 +27,18 @@ interface SidebarProps {
 export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridWidth, gridHeight, setGridHeight, pixelWidth, setPixelWidth, pixelHeight, setPixelHeight, pipetteActive, setPipetteActive, showGridOverlay, setShowGridOverlay }: SidebarProps) => {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Shift') {
+            if (e.key === 'p' || e.key === 'P') {
                 setPipetteActive(!pipetteActive);
+            }
+            if (e.key === 'o' || e.key === 'O') {
+                setShowGridOverlay(!showGridOverlay);
             }
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [pipetteActive, setPipetteActive]);
+    }, [pipetteActive, setPipetteActive, setShowGridOverlay, showGridOverlay]);
 
     return (
         <>

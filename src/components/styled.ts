@@ -25,7 +25,7 @@ export const SectionLabel = styled.label`
 export const SectionText = styled.div`
     display: block;
     margin-bottom: 8px;
-    font-size: 10px;
+    font-size: 12px;
     color: ${white};
 `
 

@@ -83,7 +83,8 @@ export default function Home() {
         setDownloadRequest={setDownloadRequest}
       />
       <CornerInstruction>
-        [SHIFT] Activate/disactivate pipette
+        [ALT] Activate/disactivate pipette<br />
+        [SHIFT] Show/hide overlay
       </CornerInstruction>
       <DownloadButton
         onClick={() => setDownloadRequest(true)}
