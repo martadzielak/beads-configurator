@@ -1,6 +1,7 @@
 "use client";
 import { DownloadButton } from "@/components/DownloadButton";
 import { Sidebar } from "@/components/sidebar/Sidebar";
+import { PeyoteModeSection } from "@/components/sidebar/sections/PeyoteModeSection";
 import { CornerInstruction } from "@/components/styles/styled";
 import { Grid } from "@/components/Grid";
 import { useState, useEffect } from "react";
@@ -22,10 +23,17 @@ export const App = () => {
     const [pipetteActive, setPipetteActive] = useState(false);
     const [showGridOverlay, setShowGridOverlay] = useState(false);
     const [downloadRequest, setDownloadRequest] = useState(false);
+    const [peyoteActive, setPeyoteActive] = useState(false);
 
     useEffect(() => {
-        setPixels(Array(gridWidth * gridHeight).fill(''));
-    }, [gridWidth, gridHeight]);
+        if (peyoteActive) {
+            // Only odd columns
+            const oddCols = Math.floor(gridWidth / 2) + (gridWidth % 2);
+            setPixels(Array(oddCols * gridHeight).fill(''));
+        } else {
+            setPixels(Array(gridWidth * gridHeight).fill(''));
+        }
+    }, [gridWidth, gridHeight, peyoteActive]);
 
     useEffect(() => {
         // Save to localStorage on every change
@@ -66,6 +74,8 @@ export const App = () => {
                 setPipetteActive={setPipetteActive}
                 showGridOverlay={showGridOverlay}
                 setShowGridOverlay={setShowGridOverlay}
+                peyoteActive={peyoteActive}
+                setPeyoteActive={setPeyoteActive}
             />
             <Grid
                 gridWidth={gridWidth}
@@ -80,6 +90,7 @@ export const App = () => {
                 showGridOverlay={showGridOverlay}
                 downloadRequest={downloadRequest}
                 setDownloadRequest={setDownloadRequest}
+                peyoteActive={peyoteActive}
             />
             <CornerInstruction>
                 [ P ] Activate/disactivate pipette<br />

@@ -5,6 +5,7 @@ import { GridDimensionsSection } from './sections/GridDimensionsSection';
 import { BeadsDimensionsSection } from './sections/BeadsDimensionsSection';
 import { ColorPickerSection } from './sections/ColorPickerSection';
 import { GridOverlaySection } from './sections/GridOverlaySection';
+import { PeyoteModeSection } from './sections/PeyoteModeSection';
 
 interface SidebarProps {
     color: string;
@@ -22,9 +23,11 @@ interface SidebarProps {
     onDownloadPNG?: () => void;
     showGridOverlay: boolean;
     setShowGridOverlay: (v: boolean) => void;
+    peyoteActive: boolean;
+    setPeyoteActive: (v: boolean) => void;
 };
 
-export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridWidth, gridHeight, setGridHeight, pixelWidth, setPixelWidth, pixelHeight, setPixelHeight, pipetteActive, setPipetteActive, showGridOverlay, setShowGridOverlay }: SidebarProps) => {
+export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridWidth, gridHeight, setGridHeight, pixelWidth, setPixelWidth, pixelHeight, setPixelHeight, pipetteActive, setPipetteActive, showGridOverlay, setShowGridOverlay, peyoteActive, setPeyoteActive }: SidebarProps) => {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'p' || e.key === 'P') {
@@ -68,6 +71,10 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
                 <GridOverlaySection
                     showGridOverlay={showGridOverlay}
                     setShowGridOverlay={setShowGridOverlay}
+                />
+                <PeyoteModeSection
+                    peyoteActive={peyoteActive}
+                    onTogglePeyote={() => setPeyoteActive(!peyoteActive)}
                 />
             </SidebarContainer>
         </>
