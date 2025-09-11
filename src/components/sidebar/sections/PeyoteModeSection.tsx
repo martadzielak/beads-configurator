@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const PeyoteModeSection: React.FC<Props> = ({ peyoteActive, onTogglePeyote }) => (
-    <GUISectionContainer label="Peyote mode" text="Add 2 pixels in every other column (top & bottom)">
+    <GUISectionContainer label="Peyote mode" text="Toggle peyote stitch mode for staggered rows.">
         <GUIButton
             onClick={onTogglePeyote}
             active={peyoteActive}
