@@ -1,3 +1,22 @@
+interface IconImgProps {
+  $active: boolean;
+}
+
+export const IconImg = styled.img<IconImgProps>`
+  display: inline-block;
+  vertical-align: middle;
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 0.5em;
+  filter: ${({ $active }) => $active ? 'invert(100%)' : 'invert(0%)'};
+  transition: filter 0.2s;
+`;
+export const LogoImg = styled.img`
+  display: block;
+  margin: 0 auto;
+  max-width: 250px;
+  height: auto;
+`;
 import styled from "styled-components";
 import { white, mediumGray, lightGray, darkGray, black } from "./colors";
 
@@ -73,6 +92,10 @@ export const SidebarContainer = styled.div`
 `;
 
 export const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
   &[data-active="true"] {
     background: ${white};
     color: ${black};
@@ -88,7 +111,6 @@ export const Button = styled.button`
   font-size: 14px;
   transition: color 0.2s, box-shadow 0.2s;
   &:hover {
-    color: ${white};
     box-shadow: 0 0 5px rgba(255,255,255,0.5);
   }
 `;
@@ -145,20 +167,11 @@ export const MobileOverlay = styled.div`
   }
 `;
 
-export const CornerInstruction = styled.div`
-  position: fixed;
-  top: 16px;
-  right: 24px;
-  color: ${white};
-  font-size: 0.95rem;
-  background: rgba(0,0,0,0.3);
-  padding: 6px 12px;
-  border-radius: 8px;
-  z-index: 100;
-  pointer-events: none;
-`;
-
 export const DownloadButtonWrapper = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
   position: fixed;
   right: 32px;
   bottom: 32px;

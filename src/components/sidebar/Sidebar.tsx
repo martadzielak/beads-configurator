@@ -1,6 +1,6 @@
 "use client";
 import { FC, useEffect } from 'react';
-import { SidebarContainer, Heading, MobileOverlay, FooterText } from '../styles/styled';
+import { SidebarContainer, Heading, MobileOverlay, FooterText, LogoImg } from '../styles/styled';
 import { GridDimensionsSection } from './sections/GridDimensionsSection';
 import { BeadsDimensionsSection } from './sections/BeadsDimensionsSection';
 import { ColorPickerSection } from './sections/ColorPickerSection';
@@ -49,6 +49,7 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
                 This app is available only on Desktop
             </MobileOverlay>
             <SidebarContainer>
+                <LogoImg src="/peyote_black.png" alt="peyote logo" />
                 <Heading>Settings</Heading>
                 <PeyoteModeSection
                     peyoteActive={peyoteActive}

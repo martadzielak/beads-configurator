@@ -1,4 +1,5 @@
 import React from "react";
+import { IconImg } from '@/components/styles/styled';
 import { GUISectionContainer } from '../common/GUISectionContainer';
 import { GUIButton } from '@/components/sidebar/common/GUIButton';
 
@@ -12,7 +13,9 @@ export const PeyoteModeSection: React.FC<Props> = ({ peyoteActive, onTogglePeyot
         <GUIButton
             onClick={onTogglePeyote}
             active={peyoteActive}
-            text={peyoteActive ? 'Disable Peyote Mode' : 'Enable Peyote Mode'}
-        />
+        >
+            <IconImg src="/peyote_icon.svg" alt="peyote icon" $active={peyoteActive} />
+            {peyoteActive ? 'Disable Peyote Mode' : 'Enable Peyote Mode'}
+        </GUIButton>
     </GUISectionContainer>
 );

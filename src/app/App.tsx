@@ -1,7 +1,6 @@
 "use client";
 import { DownloadButton } from "@/components/sidebar/common/DownloadButton";
 import { Sidebar } from "@/components/sidebar/Sidebar";
-import { CornerInstruction } from "@/components/styles/styled";
 import { Grid } from "@/components/grid/Grid";
 import { useState, useEffect } from "react";
 
@@ -91,10 +90,6 @@ export const App = () => {
                 setDownloadRequest={setDownloadRequest}
                 peyoteActive={peyoteActive}
             />
-            <CornerInstruction>
-                [ P ] Activate/disactivate pipette<br />
-                [ O ] Show/hide overlay
-            </CornerInstruction>
             <DownloadButton
                 onClick={() => setDownloadRequest(true)}
             />

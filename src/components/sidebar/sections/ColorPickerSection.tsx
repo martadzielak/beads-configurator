@@ -16,7 +16,8 @@ export const ColorPickerSection: React.FC<Props> = ({ color, setColor, pipetteAc
         <GUIButton
             onClick={() => setPipetteActive(!pipetteActive)}
             active={pipetteActive}
-            text={pipetteActive ? 'Pipette (active)' : 'Activate Pipette'}
-        />
+        >
+            {pipetteActive ? 'Pipette (active) [P]' : 'Activate Pipette [P]'}
+        </GUIButton>
     </GUISectionContainer>
 );

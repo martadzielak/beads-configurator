@@ -4,14 +4,14 @@ import { Button, PickerContainer } from "../../styles/styled";
 interface ButtonProps {
     onClick: (() => void) | undefined;
     active: boolean;
-    text: string;
+    children: React.ReactNode;
 }
 
-export const GUIButton: FC<ButtonProps> = ({ onClick, active, text }) => <PickerContainer>
+export const GUIButton: FC<ButtonProps> = ({ onClick, active, children }) => <PickerContainer>
     <Button
         onClick={onClick}
         {...(active ? { 'data-active': 'true' } : {})}
     >
-        {text}
+        {children}
     </Button>
 </PickerContainer>

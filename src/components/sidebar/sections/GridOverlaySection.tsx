@@ -12,7 +12,8 @@ export const GridOverlaySection: React.FC<Props> = ({ showGridOverlay, setShowGr
         <GUIButton
             onClick={() => setShowGridOverlay(!showGridOverlay)}
             active={showGridOverlay}
-            text={showGridOverlay ? 'Hide Grid Overlay' : 'Show Grid Overlay'}
-        />
+        >
+            {showGridOverlay ? 'Hide Grid Overlay [O]' : 'Show Grid Overlay [O]'}
+        </GUIButton>
     </GUISectionContainer>
 );
