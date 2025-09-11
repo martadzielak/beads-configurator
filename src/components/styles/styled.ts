@@ -33,19 +33,31 @@ export const SectionContainer = styled.div`
 `
 
 export const PickerInput = styled.input`
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid ${lightGray};
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: ${darkGray};
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid ${lightGray};
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: transparent;
+  color: white;
+  &:focus {
+    border-color: white;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+  /* Chrome, Safari, Edge */
+  &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+    background: transparent;
     color: white;
-    &:focus {
-        border-color: white;
-        outline: none;
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-    }
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+  }
+  /* Firefox */
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
 `;
 
 export const PickerContainer = styled.div`  margin-bottom: 20px;`;

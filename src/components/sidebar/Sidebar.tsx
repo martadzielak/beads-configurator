@@ -50,6 +50,10 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
             </MobileOverlay>
             <SidebarContainer>
                 <Heading>Settings</Heading>
+                <PeyoteModeSection
+                    peyoteActive={peyoteActive}
+                    onTogglePeyote={() => setPeyoteActive(!peyoteActive)}
+                />
                 <GridDimensionsSection
                     gridWidth={gridWidth}
                     setGridWidth={setGridWidth}
@@ -71,10 +75,6 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
                 <GridOverlaySection
                     showGridOverlay={showGridOverlay}
                     setShowGridOverlay={setShowGridOverlay}
-                />
-                <PeyoteModeSection
-                    peyoteActive={peyoteActive}
-                    onTogglePeyote={() => setPeyoteActive(!peyoteActive)}
                 />
                 <FooterText>Buy me a coffee at <a href="https://www.buymeacoffee.com/marthvader" target="_blank" rel="noopener noreferrer">buymeacoffee.com/marthvader</a></FooterText>
             </SidebarContainer>
