@@ -1,7 +1,6 @@
 "use client";
 import { DownloadButton } from "@/components/DownloadButton";
 import { Sidebar } from "@/components/sidebar/Sidebar";
-import { PeyoteModeSection } from "@/components/sidebar/sections/PeyoteModeSection";
 import { CornerInstruction } from "@/components/styles/styled";
 import { Grid } from "@/components/Grid";
 import { useState, useEffect } from "react";
