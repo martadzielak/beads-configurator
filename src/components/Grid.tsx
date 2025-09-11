@@ -1,4 +1,5 @@
 "use client";
+import { Fragment } from "react";
 import { Canvas } from '@react-three/fiber';
 import { useRef, useImperativeHandle, forwardRef, useState, useEffect, useMemo } from 'react';
 import { GridContainer } from '@/components/styled';
@@ -54,17 +55,16 @@ export const Grid = forwardRef(({
         }
     }));
 
-    const handlePixelPaint = (idx: number) => {
-        if (!mouseDown) return;
+    const paintPixel = (idx: number) => {
+        if (idx >= gridWidth * gridHeight) return;
         const newPixels = [...pixels];
         newPixels[idx] = color;
         setPixels(newPixels);
     };
 
-    const handlePixelClick = (idx: number) => {
-        const newPixels = [...pixels];
-        newPixels[idx] = color;
-        setPixels(newPixels);
+    const handlePixelPaint = (idx: number) => {
+        if (!mouseDown) return;
+        paintPixel(idx);
     };
 
     const pixelOutlineLines = useMemo(() => {
@@ -90,11 +90,10 @@ export const Grid = forwardRef(({
                         const py = (y + 0.5) * pixelHeight / 10 - (gridHeight * pixelHeight / 10) / 2;
                         const isFilled = !!pixels[idx];
                         return (
-                            <>
+                            <Fragment key={`pixel-${idx}`}>
                                 <mesh
-                                    key={`color-${idx}`}
                                     position={[px, py, 0]}
-                                    onClick={() => pipetteActive && isFilled ? setColor(pixels[idx]) : !pipetteActive ? handlePixelClick(idx) : undefined}
+                                    onClick={() => pipetteActive && isFilled ? setColor(pixels[idx]) : !pipetteActive ? handlePixelPaint(idx) : undefined}
                                     onPointerOver={() => !pipetteActive && handlePixelPaint(idx)}
                                 >
                                     <boxGeometry args={[pixelWidth / 10, pixelHeight / 10, 0.1]} />
@@ -104,7 +103,7 @@ export const Grid = forwardRef(({
                                         <meshBasicMaterial color="#7a7a7a" wireframe />
                                     )}
                                 </mesh>
-                            </>
+                            </Fragment>
                         );
                     })}
                     {showGridOverlay && (
