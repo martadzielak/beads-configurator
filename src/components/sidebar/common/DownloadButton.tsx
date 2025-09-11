@@ -1,5 +1,5 @@
 import React from "react";
-import { IconImg } from "../../styles/styled";
+import { DownloadIconImg } from "../../styles/styled";
 import { DownloadButtonWrapper } from "../../styles/styled";
 
 
@@ -11,7 +11,7 @@ interface DownloadButtonProps {
 
 export const DownloadButton: React.FC<DownloadButtonProps> = ({ onClick, text = "Download PNG" }) => (
     <DownloadButtonWrapper onClick={onClick}>
-        <IconImg src="/download.png" alt="download icon" />
+        <DownloadIconImg src="/download.png" alt="download icon" />
         {text}
     </DownloadButtonWrapper>
 );

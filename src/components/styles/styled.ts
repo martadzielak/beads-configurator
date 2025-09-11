@@ -1,15 +1,25 @@
+import styled from "styled-components";
+import { white, mediumGray, lightGray, darkGray, black } from "./colors";
+
 interface IconImgProps {
   $active: boolean;
 }
 
 export const IconImg = styled.img<IconImgProps>`
+display: inline-block;
+vertical-align: middle;
+width: 1.2em;
+height: 1.2em;
+margin-right: 0.5em;
+filter: ${({ $active }) => $active ? 'invert(100%)' : 'invert(0%)'};
+transition: filter 0.2s;
+`;
+export const DownloadIconImg = styled.img`
   display: inline-block;
   vertical-align: middle;
   width: 1.2em;
   height: 1.2em;
   margin-right: 0.5em;
-  filter: ${({ $active }) => $active ? 'invert(100%)' : 'invert(0%)'};
-  transition: filter 0.2s;
 `;
 export const LogoImg = styled.img`
   display: block;
@@ -17,8 +27,6 @@ export const LogoImg = styled.img`
   max-width: 250px;
   height: auto;
 `;
-import styled from "styled-components";
-import { white, mediumGray, lightGray, darkGray, black } from "./colors";
 
 export const PickerLabel = styled.label`
   display: block;
@@ -177,9 +185,8 @@ export const DownloadButtonWrapper = styled.button`
   bottom: 32px;
   z-index: 1000;
   background: white;
-  color: #222;
+  color: ${black};
   border: none;
-  border-radius: 4px;
   padding: 16px 28px;
   font-size: 1.1rem;
   font-weight: bold;
@@ -188,10 +195,21 @@ export const DownloadButtonWrapper = styled.button`
   transition: box-shadow 0.2s, background 0.2s, color 0.2s;
   &:hover {
     box-shadow: 0 0 5px rgba(255,255,255,0.5);
-    background: #f5f5f5;
-    color: #111;
+    background: ${white};
     outline: none;
   }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(-5px); }
+      40% { transform: translateX(5px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+      100% { transform: translateX(0); }
+    }
+    &:hover {
+      box-shadow: 0 0 5px rgba(255,255,255,0.5);
+      animation: shake 0.5s;
+    }
 `;
 
 export const FooterText = styled.div`
