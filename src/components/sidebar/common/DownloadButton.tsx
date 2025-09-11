@@ -1,5 +1,5 @@
 import React from "react";
-import { DownloadButtonWrapper } from "./styles/styled";
+import { DownloadButtonWrapper } from "../../styles/styled";
 
 
 

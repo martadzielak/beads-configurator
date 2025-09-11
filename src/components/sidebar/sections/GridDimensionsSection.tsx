@@ -1,6 +1,6 @@
 import React from "react";
-import { GUISectionContainer } from '../../GUISectionContainer';
-import { SizePicker } from '@/components/SizePicker';
+import { GUISectionContainer } from '../common/GUISectionContainer';
+import { SizePicker } from '@/components/sidebar/common/SizePicker';
 
 interface Props {
     gridWidth: number;

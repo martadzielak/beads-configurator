@@ -1,7 +1,7 @@
 import React from "react";
-import { GUISectionContainer } from '../../GUISectionContainer';
-import { ColorPicker } from '@/components/ColorPicker';
-import { GUIButton } from '@/components/GUIButton';
+import { GUISectionContainer } from '../common/GUISectionContainer';
+import { ColorPicker } from '@/components/sidebar/common/ColorPicker';
+import { GUIButton } from '@/components/sidebar/common/GUIButton';
 
 interface Props {
     color: string;

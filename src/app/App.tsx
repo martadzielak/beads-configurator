@@ -1,8 +1,8 @@
 "use client";
-import { DownloadButton } from "@/components/DownloadButton";
+import { DownloadButton } from "@/components/sidebar/common/DownloadButton";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import { CornerInstruction } from "@/components/styles/styled";
-import { Grid } from "@/components/Grid";
+import { Grid } from "@/components/grid/Grid";
 import { useState, useEffect } from "react";
 
 export const App = () => {

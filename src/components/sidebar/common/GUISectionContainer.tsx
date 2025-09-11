@@ -1,4 +1,4 @@
-import { SectionLabel, SectionText } from "./styles/styled";
+import { SectionLabel, SectionText } from "../../styles/styled";
 
 interface GUISectionContainerProps {
     label: string;

@@ -76,7 +76,7 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
                     showGridOverlay={showGridOverlay}
                     setShowGridOverlay={setShowGridOverlay}
                 />
-                <FooterText>Buy me a coffee at <a href="https://www.buymeacoffee.com/marthvader" target="_blank" rel="noopener noreferrer">buymeacoffee.com/marthvader</a></FooterText>
+                <FooterText>If you enjoy this app, you can buy me a coffee at <a href="https://www.buymeacoffee.com/marthvader" target="_blank" rel="noopener noreferrer">buymeacoffee.com/marthvader</a></FooterText>
             </SidebarContainer>
         </>
     );

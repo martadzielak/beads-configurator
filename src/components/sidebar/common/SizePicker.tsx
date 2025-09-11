@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { ColorPickerContainer, PickerInput, PickerLabel } from "./styles/styled";
+import { ColorPickerContainer, PickerInput, PickerLabel } from "../../styles/styled";
 
 interface SizePickerProps {
     label: string;

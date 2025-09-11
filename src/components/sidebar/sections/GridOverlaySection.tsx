@@ -1,6 +1,6 @@
 import React from "react";
-import { GUISectionContainer } from '../../GUISectionContainer';
-import { GUIButton } from '@/components/GUIButton';
+import { GUISectionContainer } from '../common/GUISectionContainer';
+import { GUIButton } from '@/components/sidebar/common/GUIButton';
 
 interface Props {
     showGridOverlay: boolean;
