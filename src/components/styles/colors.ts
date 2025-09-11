@@ -1,0 +1,5 @@
+export const white = "#fbfbfb"
+export const black = "black"
+export const darkGray = "#272727"
+export const mediumGray = "#444"
+export const lightGray = "#ccc"

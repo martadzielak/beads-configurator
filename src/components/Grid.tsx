@@ -2,9 +2,10 @@
 import { Fragment } from "react";
 import { Canvas } from '@react-three/fiber';
 import { useRef, useImperativeHandle, forwardRef, useState, useEffect, useMemo } from 'react';
-import { GridContainer } from '@/components/styled';
+import { GridContainer } from '@/components/styles/styled';
 import { calculatePixelOutlineLines, DownloadHelper, DownloadPNGHelper } from '@/helpers/helpers';
 import * as THREE from 'three';
+import { mediumGray } from "./styles/colors";
 
 type GridProps = {
     gridWidth: number;
@@ -40,6 +41,7 @@ export const Grid = forwardRef(({
     showGridOverlay: boolean
 }, ref) => {
     const [mouseDown, setMouseDown] = useState(false);
+    const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
 
     useEffect(() => {
         const handleMouseUp = () => setMouseDown(false);
@@ -47,7 +49,6 @@ export const Grid = forwardRef(({
         return () => window.removeEventListener('mouseup', handleMouseUp);
     }, []);
 
-    const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
     useImperativeHandle(ref, () => ({
         getCanvasDataURL: () => {
             if (!rendererRef.current) return null;
@@ -55,16 +56,12 @@ export const Grid = forwardRef(({
         }
     }));
 
-    const paintPixel = (idx: number) => {
+    const handlePixelPaint = (idx: number) => {
+        if (!mouseDown) return;
         if (idx >= gridWidth * gridHeight) return;
         const newPixels = [...pixels];
         newPixels[idx] = color;
         setPixels(newPixels);
-    };
-
-    const handlePixelPaint = (idx: number) => {
-        if (!mouseDown) return;
-        paintPixel(idx);
     };
 
     const pixelOutlineLines = useMemo(() => {
@@ -100,7 +97,7 @@ export const Grid = forwardRef(({
                                     {isFilled ? (
                                         <meshBasicMaterial color={pixels[idx]} transparent opacity={1} />
                                     ) : (
-                                        <meshBasicMaterial color="#7a7a7a" wireframe />
+                                        <meshBasicMaterial color={mediumGray} wireframe />
                                     )}
                                 </mesh>
                             </Fragment>
@@ -114,7 +111,7 @@ export const Grid = forwardRef(({
                                     args={[new Float32Array(pixelOutlineLines), 3]}
                                 />
                             </bufferGeometry>
-                            <lineBasicMaterial color="#7a7a7a" linewidth={0.3} />
+                            <lineBasicMaterial color={mediumGray} linewidth={0.3} />
                         </lineSegments>
                     )}
                     {onDownloadPNG && <DownloadHelper triggerDownload={onDownloadPNG} />}

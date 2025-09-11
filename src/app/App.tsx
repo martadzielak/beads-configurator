@@ -1,7 +1,7 @@
 "use client";
 import { DownloadButton } from "@/components/DownloadButton";
-import { Sidebar } from "@/components/Sidebar";
-import { CornerInstruction } from "@/components/styled";
+import { Sidebar } from "@/components/sidebar/Sidebar";
+import { CornerInstruction } from "@/components/styles/styled";
 import { Grid } from "@/components/Grid";
 import { useState, useEffect } from "react";
 

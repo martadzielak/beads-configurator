@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button, PickerContainer } from "./styled";
+import { Button, PickerContainer } from "./styles/styled";
 
 interface ButtonProps {
     onClick: (() => void) | undefined;

@@ -1,10 +1,5 @@
 import styled from "styled-components";
-
-const white = "#fbfbfb"
-const black = "black"
-const darkGray = "#242424"
-const mediumGray = "#444"
-const lightGray = "#ccc"
+import { white, mediumGray, lightGray, darkGray, black } from "./colors";
 
 export const PickerLabel = styled.label`
   display: block;
@@ -30,9 +25,11 @@ export const SectionText = styled.div`
 `
 
 export const SectionContainer = styled.div`
-    margin-bottom: 24px;
-    padding: 12px 0;
+  margin-bottom: 24px;
+  padding: 12px 0;
+  &:not(:last-child) {
     border-bottom: 1px solid ${mediumGray};
+  }
 `
 
 export const PickerInput = styled.input`
