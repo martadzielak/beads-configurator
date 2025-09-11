@@ -86,11 +86,10 @@ export const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
+  transition: color 0.2s, box-shadow 0.2s;
   &:hover {
-    &[data-active="true"] {
-      background: ${white};
-    }
-    background: ${darkGray};
+    color: ${white};
+    box-shadow: 0 0 5px rgba(255,255,255,0.5);
   }
 `;
 
@@ -160,24 +159,26 @@ export const CornerInstruction = styled.div`
 `;
 
 export const DownloadButtonWrapper = styled.button`
-    position: fixed;
-    right: 32px;
-    bottom: 32px;
-    z-index: 1000;
-    background: white;
-    color: #222;
-    border: none;
-    border-radius: 4px;
-    padding: 16px 28px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    cursor: pointer;
-    transition: box-shadow 0.2s;
-    &:hover {
-        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-        background: #f5f5f5;
-    }
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  z-index: 1000;
+  background: white;
+  color: #222;
+  border: none;
+  border-radius: 4px;
+  padding: 16px 28px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  transition: box-shadow 0.2s, background 0.2s, color 0.2s;
+  &:hover {
+    box-shadow: 0 0 5px rgba(255,255,255,0.5);
+    background: #f5f5f5;
+    color: #111;
+    outline: none;
+  }
 `;
 
 export const FooterText = styled.div`
