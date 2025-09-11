@@ -167,3 +167,17 @@ export const DownloadButtonWrapper = styled.button`
         background: #f5f5f5;
     }
 `;
+
+export const FooterText = styled.div`
+    font-size: 0.8rem;
+    color: ${lightGray};
+    margin-top: 20px;
+    a {
+        color: ${white};
+        text-decoration: none;
+        font-weight: bold;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+`;  

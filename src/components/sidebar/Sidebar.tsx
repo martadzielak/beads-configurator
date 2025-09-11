@@ -1,6 +1,6 @@
 "use client";
 import { FC, useEffect } from 'react';
-import { SidebarContainer, Heading, MobileOverlay } from '../styles/styled';
+import { SidebarContainer, Heading, MobileOverlay, FooterText } from '../styles/styled';
 import { GridDimensionsSection } from './sections/GridDimensionsSection';
 import { BeadsDimensionsSection } from './sections/BeadsDimensionsSection';
 import { ColorPickerSection } from './sections/ColorPickerSection';
@@ -76,6 +76,7 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
                     peyoteActive={peyoteActive}
                     onTogglePeyote={() => setPeyoteActive(!peyoteActive)}
                 />
+                <FooterText>Buy me a coffee at <a href="https://www.buymeacoffee.com/marthvader" target="_blank" rel="noopener noreferrer">buymeacoffee.com/marthvader</a></FooterText>
             </SidebarContainer>
         </>
     );
