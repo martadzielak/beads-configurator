@@ -24,7 +24,7 @@ export const PeyoteModeSection: React.FC<Props> = ({ peyoteActive, onTogglePeyot
             onClick={onTogglePeyote}
             active={peyoteActive}
         >
-            <IconImg src="/peyote_icon.svg" alt="peyote icon" $active={peyoteActive} />
+            <IconImg src="/peyote_icon.png" alt="peyote icon" $active={peyoteActive} />
             {peyoteActive ? 'Disable Peyote Mode' : 'Enable Peyote Mode'}
         </GUIButton>
     </GUISectionContainer>

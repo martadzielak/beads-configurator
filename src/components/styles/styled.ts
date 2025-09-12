@@ -272,7 +272,6 @@ export const DownloadButtonWrapper = styled.button`
 export const FooterText = styled.div`
     font-size: 14px;
     color: ${lightGray};
-    margin-top: 20px;
     a {
         color: ${white};
         text-decoration: none;

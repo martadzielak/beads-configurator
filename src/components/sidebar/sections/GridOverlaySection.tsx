@@ -17,6 +17,7 @@ export const GridOverlaySection: React.FC<Props> = ({ showGridOverlay, setShowGr
             onClick={() => setShowGridOverlay(!showGridOverlay)}
             active={showGridOverlay}
         >
+            {!showGridOverlay && <img src="/grid.png" alt="Grid Overlay" style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }} />}
             {showGridOverlay ? 'Hide Grid Overlay [O]' : 'Show Grid Overlay [O]'}
         </GUIButton>
     </GUISectionContainer>
