@@ -1,7 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { useRef, useImperativeHandle, forwardRef, useState, useEffect, useMemo } from 'react';
 import { GridContainer, ZoomButton, ZoomButtonContainer } from '@/components/styles/styled';
-import { calculatePixelOutlineLines, DownloadHelper, DownloadPNGHelper } from '@/helpers/helpers';
+import { calculatePixelOutlineLines, DownloadHelper, DownloadPNGHelper, getTotalPixels } from '@/helpers/helpers';
 import { PeyoteGrid } from './PeyoteGrid';
 import { RectGrid } from './RectGrid';
 import * as THREE from 'three';
@@ -46,6 +46,7 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
     const [mouseDown, setMouseDown] = useState(false);
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
     const cameraRef = useRef<THREE.OrthographicCamera | null>(null);
+    const totalPixels = getTotalPixels(gridWidth, gridHeight, peyoteActive);
 
     useEffect(() => {
         if (cameraRef.current) {
@@ -54,6 +55,12 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
         }
     }, [zoom]);
 
+    useEffect(() => {
+        if (pixels.length !== totalPixels) {
+            setPixels(Array(totalPixels).fill(""));
+        }
+    }, [totalPixels, pixels.length, setPixels]);
+
     useImperativeHandle(ref, () => ({
         getCanvasDataURL: () => {
             if (!rendererRef.current) return null;
@@ -61,17 +68,7 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
         }
     }));
 
-    let totalPixels = gridWidth * gridHeight;
-    if (peyoteActive) {
-        let count = 0;
-        for (let row = 0; row < gridHeight; row++) {
-            count += (row % 2 === 0) ? gridWidth : (gridWidth - 1);
-        }
-        totalPixels = count;
-    }
-    if (pixels.length !== totalPixels) {
-        setPixels(Array(totalPixels).fill(""));
-    }
+
 
     const handlePixelPaint = (idx: number) => {
         if (!mouseDown) return;

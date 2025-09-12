@@ -101,3 +101,12 @@ export const getPeyotePixelIdx = (row: number, col: number, gridWidth: number) =
     }
     return idx + col;
 };
+
+export const getTotalPixels = (gridWidth: number, gridHeight: number, peyoteActive: boolean): number => {
+    if (!peyoteActive) return gridWidth * gridHeight;
+    let count = 0;
+    for (let row = 0; row < gridHeight; row++) {
+        count += (row % 2 === 0) ? gridWidth : (gridWidth - 1);
+    }
+    return count;
+}
