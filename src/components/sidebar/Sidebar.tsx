@@ -42,6 +42,23 @@ export const Sidebar: FC<SidebarProps> = ({
     showGridOverlay, setShowGridOverlay,
     peyoteActive, setPeyoteActive
 }) => {
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'p' || e.key === 'P') {
+                setPipetteActive(!pipetteActive);
+            }
+            if (e.key === 'o' || e.key === 'O') {
+                setShowGridOverlay(!showGridOverlay);
+            }
+            if (e.key === 'e' || e.key === 'E') {
+                    setEraserActive(!eraserActive);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [pipetteActive, setPipetteActive, setShowGridOverlay, showGridOverlay, eraserActive, setEraserActive]);
     return (
         <>
             <MobileOverlay />

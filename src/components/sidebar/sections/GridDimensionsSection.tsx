@@ -13,7 +13,7 @@ interface Props {
     children?: React.ReactNode;
 }
 
-export const GridDimensionsSection: React.FC<Props> = ({ gridWidth, setGridWidth, gridHeight, setGridHeight, children }) => (
+export const GridDimensionsSection: React.FC<Props> = ({ gridWidth, setGridWidth, gridHeight, setGridHeight }) => (
     <GUISectionContainer label="Grid dimensions">
         <SectionText>
             Adjust the grid dimensions.

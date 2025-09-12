@@ -1,5 +1,6 @@
 import React from "react";
-import { SectionText } from '../../styles/styled';
+import Image from 'next/image';
+import { IconImg, SectionText } from '../../styles/styled';
 import { GUISectionContainer } from '../common/GUISectionContainer';
 import { ColorPicker } from '@/components/sidebar/common/ColorPicker';
 import { GUIButton } from '@/components/sidebar/common/GUIButton';
@@ -23,14 +24,15 @@ export const ColorPickerSection: React.FC<Props> = ({ color, setColor, pipetteAc
             onClick={() => setPipetteActive(!pipetteActive)}
             active={pipetteActive}
         >
-            {!pipetteActive && <img src="/pipette.png" alt="Pipette" style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }} />}
+            <IconImg src="/pipette.png" alt="Pipette" style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }} $active={pipetteActive} />
             {pipetteActive ? 'Pipette (active) [P]' : 'Activate Pipette [P]'}
         </GUIButton>
+        {eraserActive ? 'Eraser (active) [E]' : 'Activate Eraser [E]'}
         <GUIButton
             onClick={() => setEraserActive(!eraserActive)}
             active={eraserActive}
         >
-            {!eraserActive && <img src="/eraser.png" alt="Eraser" style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }} />}
+            <IconImg src="/eraser.png" alt="Eraser" style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }} $active={eraserActive} />
             {eraserActive ? 'Eraser (active)' : 'Activate Eraser'}
         </GUIButton>
     </GUISectionContainer>

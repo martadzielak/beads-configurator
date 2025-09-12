@@ -42,6 +42,7 @@ margin-right: 0.5em;
 filter: ${({ $active }) => $active ? 'invert(100%)' : 'invert(0%)'};
 transition: filter 0.2s;
 `;
+
 export const DownloadIconImg = styled.img`
   display: inline-block;
   vertical-align: middle;
