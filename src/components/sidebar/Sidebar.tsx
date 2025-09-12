@@ -46,8 +46,8 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
     }, [pipetteActive, setPipetteActive, setShowGridOverlay, showGridOverlay]);
 
     return (
-        <>
-            <MobileOverlay />
+
+        <>    <MobileOverlay />
             <SidebarContainer>
                 <LogoImg src="/peyote_black.png" alt="peyote logo" />
                 <Heading>Settings</Heading>

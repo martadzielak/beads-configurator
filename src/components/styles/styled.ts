@@ -24,6 +24,7 @@ export const DownloadIconImg = styled.img`
 export const LogoImg = styled.img`
   display: block;
   margin: 0 auto;
+  width: 100%;
   max-width: 250px;
   height: auto;
 `;
@@ -93,13 +94,14 @@ export const PickerInput = styled.input`
 export const PickerContainer = styled.div`  margin-bottom: 20px;`;
 
 export const SidebarContainer = styled.div`
-  width: 15%;   
+    width: 300px;  
+    display: flex;
+    flex-direction: column; 
     padding: 20px;
     box-sizing: border-box;
     background: ${darkGray};
     height: 100vh;
     overflow-y: auto;
-    overflow-x: hidden;
 `;
 
 export const Button = styled.button`
@@ -127,6 +129,7 @@ export const Button = styled.button`
 `;
 
 export const GridContainer = styled.div`
+  width: calc(100% - 300px);
     background: black;
     margin: 0 auto;
     user-select: none;

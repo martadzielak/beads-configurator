@@ -90,56 +90,54 @@ export const Grid = forwardRef(({
     }, [gridWidth, gridHeight, pixelWidth, pixelHeight, peyoteActive]);
 
     return (
-        <div style={{ width: '85%', height: '100vh', position: 'relative' }}>
 
-            <GridContainer>
-                <Canvas
-                    orthographic
-                    camera={{ zoom: 50, position: [0, 0, 100] }}
-                    style={{ width: '100%', height: '100vh', background: 'black' }}
-                    onCreated={({ gl }) => { rendererRef.current = gl; }}
-                    onPointerDown={() => setMouseDown(true)}
-                    onPointerUp={() => setMouseDown(false)}
-                >
-                    {peyoteActive ? (
-                        <PeyoteGrid
-                            gridWidth={gridWidth}
-                            gridHeight={gridHeight}
-                            pixelWidth={pixelWidth}
-                            pixelHeight={pixelHeight}
-                            pixels={pixels}
-                            pipetteActive={pipetteActive}
-                            setColor={setColor}
-                            handlePixelPaint={handlePixelPaint}
-                        />
-                    ) : (
-                        <RectGrid
-                            gridWidth={gridWidth}
-                            gridHeight={gridHeight}
-                            pixelWidth={pixelWidth}
-                            pixelHeight={pixelHeight}
-                            pixels={pixels}
-                            pipetteActive={pipetteActive}
-                            setColor={setColor}
-                            handlePixelPaint={handlePixelPaint}
-                        />
-                    )}
-                    {showGridOverlay && (
-                        <lineSegments>
-                            <bufferGeometry>
-                                <bufferAttribute
-                                    attach="attributes-position"
-                                    args={[new Float32Array(pixelOutlineLines), 3]}
-                                />
-                            </bufferGeometry>
-                            <lineBasicMaterial color={mediumGray} linewidth={0.3} />
-                        </lineSegments>
-                    )}
-                    {onDownloadPNG && <DownloadHelper triggerDownload={onDownloadPNG} />}
-                    <DownloadPNGHelper downloadRequest={downloadRequest} setDownloadRequest={setDownloadRequest} />
-                </Canvas>
-            </GridContainer>
-        </div>
+        <GridContainer>
+            <Canvas
+                orthographic
+                camera={{ zoom: 50, position: [0, 0, 100] }}
+                style={{ width: '100%', height: '100vh', background: 'black' }}
+                onCreated={({ gl }) => { rendererRef.current = gl; }}
+                onPointerDown={() => setMouseDown(true)}
+                onPointerUp={() => setMouseDown(false)}
+            >
+                {peyoteActive ? (
+                    <PeyoteGrid
+                        gridWidth={gridWidth}
+                        gridHeight={gridHeight}
+                        pixelWidth={pixelWidth}
+                        pixelHeight={pixelHeight}
+                        pixels={pixels}
+                        pipetteActive={pipetteActive}
+                        setColor={setColor}
+                        handlePixelPaint={handlePixelPaint}
+                    />
+                ) : (
+                    <RectGrid
+                        gridWidth={gridWidth}
+                        gridHeight={gridHeight}
+                        pixelWidth={pixelWidth}
+                        pixelHeight={pixelHeight}
+                        pixels={pixels}
+                        pipetteActive={pipetteActive}
+                        setColor={setColor}
+                        handlePixelPaint={handlePixelPaint}
+                    />
+                )}
+                {showGridOverlay && (
+                    <lineSegments>
+                        <bufferGeometry>
+                            <bufferAttribute
+                                attach="attributes-position"
+                                args={[new Float32Array(pixelOutlineLines), 3]}
+                            />
+                        </bufferGeometry>
+                        <lineBasicMaterial color={mediumGray} linewidth={0.3} />
+                    </lineSegments>
+                )}
+                {onDownloadPNG && <DownloadHelper triggerDownload={onDownloadPNG} />}
+                <DownloadPNGHelper downloadRequest={downloadRequest} setDownloadRequest={setDownloadRequest} />
+            </Canvas>
+        </GridContainer>
     );
 });
 Grid.displayName = 'Grid';
