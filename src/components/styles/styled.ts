@@ -221,7 +221,7 @@ export const MobileOverlayContainer = styled.div`
   font-size: 2rem;
   font-weight: 700;
   text-align: center;
-  @media (max-width: 767px) {
+  @media (max-width: 1024px) {
     display: flex;
   }
 `;
