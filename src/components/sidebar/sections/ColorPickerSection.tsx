@@ -1,4 +1,5 @@
 import React from "react";
+import { SectionText } from '../../styles/styled';
 import { GUISectionContainer } from '../common/GUISectionContainer';
 import { ColorPicker } from '@/components/sidebar/common/ColorPicker';
 import { GUIButton } from '@/components/sidebar/common/GUIButton';
@@ -11,7 +12,10 @@ interface Props {
 }
 
 export const ColorPickerSection: React.FC<Props> = ({ color, setColor, pipetteActive, setPipetteActive }) => (
-    <GUISectionContainer label="Pick color" text="Choose a bead color.">
+    <GUISectionContainer label="Pick color">
+        <SectionText>
+            Choose a bead color.
+        </SectionText>
         <ColorPicker color={color} setColor={setColor} />
         <GUIButton
             onClick={() => setPipetteActive(!pipetteActive)}

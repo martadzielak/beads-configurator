@@ -1,4 +1,5 @@
 import React from "react";
+import { SectionText } from '../../styles/styled';
 import { IconImg } from '@/components/styles/styled';
 import { GUISectionContainer } from '../common/GUISectionContainer';
 import { GUIButton } from '@/components/sidebar/common/GUIButton';
@@ -9,7 +10,10 @@ interface Props {
 }
 
 export const PeyoteModeSection: React.FC<Props> = ({ peyoteActive, onTogglePeyote }) => (
-    <GUISectionContainer label="Peyote mode" text="Toggle peyote stitch mode for staggered rows. Caution! This will reset the pattern!">
+    <GUISectionContainer label="Peyote mode">
+        <SectionText>
+            Toggle peyote stitch mode for staggered rows. <span>Caution! This will reset the pattern!</span>
+        </SectionText>
         <GUIButton
             onClick={onTogglePeyote}
             active={peyoteActive}

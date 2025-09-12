@@ -36,7 +36,7 @@ export const PickerLabel = styled.label`
     color: ${white};
 `;
 
-export const SectionLabel = styled.label`
+export const SectionHeading = styled.label`
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
@@ -47,8 +47,11 @@ export const SectionLabel = styled.label`
 export const SectionText = styled.div`
     display: block;
     margin-bottom: 8px;
-    font-size: 12px;
+    font-size: 14px;
     color: ${white};
+    & > span {
+      font-weight: bold;
+
 `
 
 export const SectionContainer = styled.div`
@@ -154,25 +157,31 @@ export const ColorPickerContainer = styled.div`
       border-radius: 4px 4px 0 0;
   `
 
-export const MobileOverlay = styled.div`
+export const MobileOverlayContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: ${black};
+  background: ${darkGray};
   color: ${white};
   z-index: 9999;
-  display: flex;
+  display: none;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
   font-weight: 700;
   text-align: center;
-
-  @media (min-width: 768px) {
-    display: none;
+  @media (max-width: 767px) {
+    display: flex;
   }
+`;
+
+export const MobileOverlayCaption = styled.div`
+  margin-top: 24px;
+  padding: 0 20px;
+  font-size: 14px;
 `;
 
 export const DownloadButtonWrapper = styled.button`
@@ -213,7 +222,7 @@ export const DownloadButtonWrapper = styled.button`
 `;
 
 export const FooterText = styled.div`
-    font-size: 0.8rem;
+    font-size: 14px;
     color: ${lightGray};
     margin-top: 20px;
     a {

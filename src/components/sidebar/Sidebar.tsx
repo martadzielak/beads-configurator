@@ -1,6 +1,8 @@
 "use client";
 import { FC, useEffect } from 'react';
-import { SidebarContainer, Heading, MobileOverlay, FooterText, LogoImg } from '../styles/styled';
+import { SidebarContainer, Heading, LogoImg } from '../styles/styled';
+import { MobileOverlay } from './common/MobileOverlay';
+import { Footer } from './common/Footer';
 import { GridDimensionsSection } from './sections/GridDimensionsSection';
 import { BeadsDimensionsSection } from './sections/BeadsDimensionsSection';
 import { ColorPickerSection } from './sections/ColorPickerSection';
@@ -45,9 +47,7 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
 
     return (
         <>
-            <MobileOverlay>
-                This app is available only on Desktop
-            </MobileOverlay>
+            <MobileOverlay />
             <SidebarContainer>
                 <LogoImg src="/peyote_black.png" alt="peyote logo" />
                 <Heading>Settings</Heading>
@@ -77,7 +77,7 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
                     showGridOverlay={showGridOverlay}
                     setShowGridOverlay={setShowGridOverlay}
                 />
-                <FooterText>If you enjoy this app, you can buy me a coffee at <a href="https://www.buymeacoffee.com/marthvader" target="_blank" rel="noopener noreferrer">buymeacoffee.com/marthvader</a></FooterText>
+                <Footer />
             </SidebarContainer>
         </>
     );
