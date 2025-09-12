@@ -8,6 +8,7 @@ interface RectGridProps {
     pixelHeight: number;
     pixels: string[];
     pipetteActive: boolean;
+    eraserActive: boolean;
     setColor: (color: string) => void;
     handlePixelPaint: (idx: number) => void;
 };
@@ -19,6 +20,7 @@ export function RectGrid({
     pixelHeight,
     pixels,
     pipetteActive,
+    eraserActive,
     setColor,
     handlePixelPaint
 }: RectGridProps) {

@@ -9,6 +9,7 @@ interface PeyoteGridProps {
     pixelHeight: number;
     pixels: string[];
     pipetteActive: boolean;
+    eraserActive: boolean;
     setColor: (color: string) => void;
     handlePixelPaint: (pixelIdx: number) => void;
 };
@@ -20,6 +21,7 @@ export function PeyoteGrid({
     pixelHeight,
     pixels,
     pipetteActive,
+    eraserActive,
     setColor,
     handlePixelPaint
 }: PeyoteGridProps) {

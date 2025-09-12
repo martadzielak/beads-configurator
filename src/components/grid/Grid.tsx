@@ -18,6 +18,7 @@ type GridProps = {
     showGridOverlay: boolean;
     peyoteActive: boolean;
     pipetteActive: boolean;
+    eraserActive: boolean;
     setColor: (c: string) => void;
     onDownloadPNG?: () => void;
     downloadRequest: boolean;
@@ -34,6 +35,7 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
         pixels,
         setPixels,
         pipetteActive,
+        eraserActive,
         setColor,
         onDownloadPNG,
         downloadRequest,
@@ -74,7 +76,11 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
         if (!mouseDown) return;
         if (idx >= totalPixels) return;
         const newPixels = [...pixels];
-        newPixels[idx] = color;
+        if (eraserActive) {
+            newPixels[idx] = "";
+        } else {
+            newPixels[idx] = color;
+        }
         setPixels(newPixels);
     };
 
@@ -110,6 +116,7 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
                             pixelHeight={pixelHeight}
                             pixels={pixels}
                             pipetteActive={pipetteActive}
+                            eraserActive={eraserActive}
                             setColor={setColor}
                             handlePixelPaint={handlePixelPaint}
                         />
@@ -121,6 +128,7 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
                             pixelHeight={pixelHeight}
                             pixels={pixels}
                             pipetteActive={pipetteActive}
+                            eraserActive={eraserActive}
                             setColor={setColor}
                             handlePixelPaint={handlePixelPaint}
                         />

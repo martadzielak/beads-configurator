@@ -9,9 +9,11 @@ interface Props {
     setColor: (color: string) => void;
     pipetteActive: boolean;
     setPipetteActive: (active: boolean) => void;
+    eraserActive: boolean;
+    setEraserActive: (active: boolean) => void;
 }
 
-export const ColorPickerSection: React.FC<Props> = ({ color, setColor, pipetteActive, setPipetteActive }) => (
+export const ColorPickerSection: React.FC<Props> = ({ color, setColor, pipetteActive, setPipetteActive, eraserActive, setEraserActive }) => (
     <GUISectionContainer label="Pick color">
         <SectionText>
             Choose a bead color.
@@ -22,6 +24,12 @@ export const ColorPickerSection: React.FC<Props> = ({ color, setColor, pipetteAc
             active={pipetteActive}
         >
             {pipetteActive ? 'Pipette (active) [P]' : 'Activate Pipette [P]'}
+        </GUIButton>
+        <GUIButton
+            onClick={() => setEraserActive(!eraserActive)}
+            active={eraserActive}
+        >
+            {eraserActive ? 'Eraser (active)' : 'Activate Eraser'}
         </GUIButton>
     </GUISectionContainer>
 );

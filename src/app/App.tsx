@@ -19,6 +19,7 @@ export const App = () => {
         return Array(85 * 19).fill('');
     });
     const [pipetteActive, setPipetteActive] = useState(false);
+    const [eraserActive, setEraserActive] = useState(false);
     const [showGridOverlay, setShowGridOverlay] = useState(false);
     const [downloadRequest, setDownloadRequest] = useState(false);
     const [peyoteActive, setPeyoteActive] = useState(false);
@@ -70,6 +71,8 @@ export const App = () => {
                 setPixelHeight={setPixelHeight}
                 pipetteActive={pipetteActive}
                 setPipetteActive={setPipetteActive}
+                eraserActive={eraserActive}
+                setEraserActive={setEraserActive}
                 showGridOverlay={showGridOverlay}
                 setShowGridOverlay={setShowGridOverlay}
                 peyoteActive={peyoteActive}
@@ -84,6 +87,7 @@ export const App = () => {
                 pixels={pixels}
                 setPixels={setPixels}
                 pipetteActive={pipetteActive}
+                eraserActive={eraserActive}
                 setColor={setColor}
                 showGridOverlay={showGridOverlay}
                 downloadRequest={downloadRequest}

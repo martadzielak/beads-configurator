@@ -22,6 +22,8 @@ interface SidebarProps {
     setPixelHeight: (h: number) => void;
     pipetteActive: boolean;
     setPipetteActive: (active: boolean) => void;
+    eraserActive: boolean;
+    setEraserActive: (active: boolean) => void;
     onDownloadPNG?: () => void;
     showGridOverlay: boolean;
     setShowGridOverlay: (v: boolean) => void;
@@ -29,25 +31,20 @@ interface SidebarProps {
     setPeyoteActive: (v: boolean) => void;
 };
 
-export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridWidth, gridHeight, setGridHeight, pixelWidth, setPixelWidth, pixelHeight, setPixelHeight, pipetteActive, setPipetteActive, showGridOverlay, setShowGridOverlay, peyoteActive, setPeyoteActive }: SidebarProps) => {
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'p' || e.key === 'P') {
-                setPipetteActive(!pipetteActive);
-            }
-            if (e.key === 'o' || e.key === 'O') {
-                setShowGridOverlay(!showGridOverlay);
-            }
-        };
-        window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [pipetteActive, setPipetteActive, setShowGridOverlay, showGridOverlay]);
-
+export const Sidebar: FC<SidebarProps> = ({
+    color, setColor,
+    gridWidth, setGridWidth,
+    gridHeight, setGridHeight,
+    pixelWidth, setPixelWidth,
+    pixelHeight, setPixelHeight,
+    pipetteActive, setPipetteActive,
+    eraserActive, setEraserActive,
+    showGridOverlay, setShowGridOverlay,
+    peyoteActive, setPeyoteActive
+}) => {
     return (
-
-        <>    <MobileOverlay />
+        <>
+            <MobileOverlay />
             <SidebarContainer>
                 <LogoImg src="/peyote_black.png" alt="peyote logo" />
                 <Heading>Settings</Heading>
@@ -72,6 +69,8 @@ export const Sidebar: FC<SidebarProps> = ({ color, setColor, gridWidth, setGridW
                     setColor={setColor}
                     pipetteActive={pipetteActive}
                     setPipetteActive={setPipetteActive}
+                    eraserActive={eraserActive}
+                    setEraserActive={setEraserActive}
                 />
                 <GridOverlaySection
                     showGridOverlay={showGridOverlay}
