@@ -32,7 +32,7 @@ export const ColorPickerSection: React.FC<Props> = ({ color, setColor, pipetteAc
             active={eraserActive}
         >
             <IconImg src="/eraser.png" alt="Eraser" style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }} $active={eraserActive} />
-            {eraserActive ? 'Eraser (active)' : 'Activate Eraser'}
+            {eraserActive ? 'Eraser (active) [E]' : 'Activate Eraser [E]'}
         </GUIButton>
     </GUISectionContainer>
 );
