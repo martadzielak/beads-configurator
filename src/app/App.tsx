@@ -3,6 +3,7 @@ import { DownloadButton } from "@/components/sidebar/common/DownloadButton";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import { Grid } from "@/components/grid/Grid";
 import { useState, useEffect } from "react";
+import { Loader, useLoader } from "@/components/common/Loader";
 
 export const App = () => {
     const [color, setColor] = useState('#ff0000');
@@ -23,6 +24,8 @@ export const App = () => {
     const [showGridOverlay, setShowGridOverlay] = useState(false);
     const [downloadRequest, setDownloadRequest] = useState(false);
     const [peyoteActive, setPeyoteActive] = useState(false);
+
+    const loading = useLoader(1000);
 
     useEffect(() => {
         if (peyoteActive) {
@@ -55,6 +58,8 @@ export const App = () => {
         }
         setPixels(Array(gridWidth * gridHeight).fill(''));
     }, [gridWidth, gridHeight]);
+
+    if (loading) return <Loader />;
 
     return (
         <div style={{ display: 'flex', height: '100vh' }}>
