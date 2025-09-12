@@ -1,6 +1,34 @@
 import styled from "styled-components";
 import { white, mediumGray, lightGray, darkGray, black } from "./colors";
 
+export const ZoomButton = styled.button`
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid ${white};
+    background: ${darkGray};
+    color: ${white};
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+      transition: color 0.2s, box-shadow 0.2s;
+  &:hover {
+    box-shadow: 0 0 5px rgba(255,255,255,0.5);
+  }
+`;
+
+export const ZoomButtonContainer = styled.div`
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+`;
+
 interface IconImgProps {
   $active: boolean;
 }

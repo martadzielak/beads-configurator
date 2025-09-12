@@ -1,8 +1,7 @@
-"use client";
 import { Canvas } from '@react-three/fiber';
 import { useRef, useImperativeHandle, forwardRef, useState, useEffect, useMemo } from 'react';
-import { GridContainer } from '@/components/styles/styled';
-import { calculatePixelOutlineLines, DownloadHelper, DownloadPNGHelper, getPeyotePixelIdx } from '@/helpers/helpers';
+import { GridContainer, ZoomButton, ZoomButtonContainer } from '@/components/styles/styled';
+import { calculatePixelOutlineLines, DownloadHelper, DownloadPNGHelper } from '@/helpers/helpers';
 import { PeyoteGrid } from './PeyoteGrid';
 import { RectGrid } from './RectGrid';
 import * as THREE from 'three';
@@ -18,40 +17,42 @@ type GridProps = {
     setPixels: (pixels: string[]) => void;
     showGridOverlay: boolean;
     peyoteActive: boolean;
+    pipetteActive: boolean;
+    setColor: (c: string) => void;
+    onDownloadPNG?: () => void;
+    downloadRequest: boolean;
+    setDownloadRequest: (v: boolean) => void;
 };
 
-export const Grid = forwardRef(({
-    gridWidth,
-    gridHeight,
-    pixelWidth,
-    pixelHeight,
-    color,
-    pixels,
-    setPixels,
-    pipetteActive,
-    setColor,
-    onDownloadPNG,
-    downloadRequest,
-    setDownloadRequest,
-    showGridOverlay,
-    peyoteActive
-}: GridProps & {
-    pipetteActive: boolean,
-    setColor: (c: string) => void,
-    onDownloadPNG?: () => void,
-    downloadRequest: boolean,
-    setDownloadRequest: (v: boolean) => void,
-    showGridOverlay: boolean,
-    peyoteActive: boolean
-}, ref) => {
+export const Grid = forwardRef(function Grid(props: GridProps, ref) {
+    const {
+        gridWidth,
+        gridHeight,
+        pixelWidth,
+        pixelHeight,
+        color,
+        pixels,
+        setPixels,
+        pipetteActive,
+        setColor,
+        onDownloadPNG,
+        downloadRequest,
+        setDownloadRequest,
+        showGridOverlay,
+        peyoteActive
+    } = props;
+
+    const [zoom, setZoom] = useState(50);
     const [mouseDown, setMouseDown] = useState(false);
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+    const cameraRef = useRef<THREE.OrthographicCamera | null>(null);
 
     useEffect(() => {
-        const handleMouseUp = () => setMouseDown(false);
-        window.addEventListener('mouseup', handleMouseUp);
-        return () => window.removeEventListener('mouseup', handleMouseUp);
-    }, []);
+        if (cameraRef.current) {
+            cameraRef.current.zoom = zoom;
+            cameraRef.current.updateProjectionMatrix();
+        }
+    }, [zoom]);
 
     useImperativeHandle(ref, () => ({
         getCanvasDataURL: () => {
@@ -68,12 +69,9 @@ export const Grid = forwardRef(({
         }
         totalPixels = count;
     }
-
-    useEffect(() => {
-        if (pixels.length !== totalPixels) {
-            setPixels(Array(totalPixels).fill(""));
-        }
-    }, [totalPixels, pixels.length, setPixels]);
+    if (pixels.length !== totalPixels) {
+        setPixels(Array(totalPixels).fill(""));
+    }
 
     const handlePixelPaint = (idx: number) => {
         if (!mouseDown) return;
@@ -83,61 +81,69 @@ export const Grid = forwardRef(({
         setPixels(newPixels);
     };
 
-
-
     const pixelOutlineLines = useMemo(() => {
         return calculatePixelOutlineLines(peyoteActive, gridWidth, gridHeight, pixelWidth, pixelHeight);
     }, [gridWidth, gridHeight, pixelWidth, pixelHeight, peyoteActive]);
 
     return (
-
-        <GridContainer>
-            <Canvas
-                orthographic
-                camera={{ zoom: 50, position: [0, 0, 100] }}
-                style={{ width: '100%', height: '100vh', background: 'black' }}
-                onCreated={({ gl }) => { rendererRef.current = gl; }}
-                onPointerDown={() => setMouseDown(true)}
-                onPointerUp={() => setMouseDown(false)}
-            >
-                {peyoteActive ? (
-                    <PeyoteGrid
-                        gridWidth={gridWidth}
-                        gridHeight={gridHeight}
-                        pixelWidth={pixelWidth}
-                        pixelHeight={pixelHeight}
-                        pixels={pixels}
-                        pipetteActive={pipetteActive}
-                        setColor={setColor}
-                        handlePixelPaint={handlePixelPaint}
-                    />
-                ) : (
-                    <RectGrid
-                        gridWidth={gridWidth}
-                        gridHeight={gridHeight}
-                        pixelWidth={pixelWidth}
-                        pixelHeight={pixelHeight}
-                        pixels={pixels}
-                        pipetteActive={pipetteActive}
-                        setColor={setColor}
-                        handlePixelPaint={handlePixelPaint}
-                    />
-                )}
-                {showGridOverlay && (
-                    <lineSegments>
-                        <bufferGeometry>
-                            <bufferAttribute
-                                attach="attributes-position"
-                                args={[new Float32Array(pixelOutlineLines), 3]}
-                            />
-                        </bufferGeometry>
-                        <lineBasicMaterial color={mediumGray} linewidth={0.3} />
-                    </lineSegments>
-                )}
-                {onDownloadPNG && <DownloadHelper triggerDownload={onDownloadPNG} />}
-                <DownloadPNGHelper downloadRequest={downloadRequest} setDownloadRequest={setDownloadRequest} />
-            </Canvas>
-        </GridContainer>
+        <>
+            <ZoomButtonContainer>
+                <ZoomButton onClick={() => setZoom(z => Math.min(200, z + 5))}>+</ZoomButton>
+                <ZoomButton onClick={() => setZoom(z => Math.max(10, z - 5))}>-</ZoomButton>
+            </ZoomButtonContainer>
+            <GridContainer>
+                <Canvas
+                    orthographic
+                    camera={{ zoom, position: [0, 0, 100] }}
+                    style={{ width: '100%', height: '100vh', background: 'black' }}
+                    onCreated={({ gl, camera }) => {
+                        rendererRef.current = gl;
+                        if ((camera as THREE.Camera).type === "OrthographicCamera") {
+                            cameraRef.current = camera as THREE.OrthographicCamera;
+                        }
+                    }}
+                    onPointerDown={() => setMouseDown(true)}
+                    onPointerUp={() => setMouseDown(false)}
+                >
+                    {peyoteActive ? (
+                        <PeyoteGrid
+                            gridWidth={gridWidth}
+                            gridHeight={gridHeight}
+                            pixelWidth={pixelWidth}
+                            pixelHeight={pixelHeight}
+                            pixels={pixels}
+                            pipetteActive={pipetteActive}
+                            setColor={setColor}
+                            handlePixelPaint={handlePixelPaint}
+                        />
+                    ) : (
+                        <RectGrid
+                            gridWidth={gridWidth}
+                            gridHeight={gridHeight}
+                            pixelWidth={pixelWidth}
+                            pixelHeight={pixelHeight}
+                            pixels={pixels}
+                            pipetteActive={pipetteActive}
+                            setColor={setColor}
+                            handlePixelPaint={handlePixelPaint}
+                        />
+                    )}
+                    {showGridOverlay && (
+                        <lineSegments>
+                            <bufferGeometry>
+                                <bufferAttribute
+                                    attach="attributes-position"
+                                    args={[new Float32Array(pixelOutlineLines), 3]}
+                                />
+                            </bufferGeometry>
+                            <lineBasicMaterial color={mediumGray} linewidth={0.3} />
+                        </lineSegments>
+                    )}
+                    {onDownloadPNG && <DownloadHelper triggerDownload={onDownloadPNG} />}
+                    <DownloadPNGHelper downloadRequest={downloadRequest} setDownloadRequest={setDownloadRequest} />
+                </Canvas>
+            </GridContainer>
+        </>
     );
 });
 Grid.displayName = 'Grid';
