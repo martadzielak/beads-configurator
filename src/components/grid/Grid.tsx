@@ -5,7 +5,7 @@ import { calculatePixelOutlineLines, DownloadHelper, DownloadPNGHelper, getTotal
 import { PeyoteGrid } from './PeyoteGrid';
 import { RectGrid } from './RectGrid';
 import * as THREE from 'three';
-import { mediumGray } from "../styles/colors";
+import { lightGray, mediumGray } from "../styles/colors";
 
 type GridProps = {
     gridWidth: number;
@@ -98,7 +98,7 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
                 <Canvas
                     orthographic
                     camera={{ zoom, position: [0, 0, 100] }}
-                    style={{ width: '100%', height: '100vh', background: 'black' }}
+                    style={{ width: '100%', height: '100vh', background: lightGray }}
                     onCreated={({ gl, camera }) => {
                         rendererRef.current = gl;
                         if ((camera as THREE.Camera).type === "OrthographicCamera") {
@@ -147,7 +147,7 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
                     {onDownloadPNG && <DownloadHelper triggerDownload={onDownloadPNG} />}
                     <DownloadPNGHelper downloadRequest={downloadRequest} setDownloadRequest={setDownloadRequest} />
                 </Canvas>
-            </GridContainer>
+            </GridContainer >
         </>
     );
 });

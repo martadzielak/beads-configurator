@@ -6,16 +6,17 @@ export const ZoomButton = styled.button`
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 1px solid ${white};
-    background: ${darkGray};
-    color: ${white};
+    background: ${white};
+    color: ${black};
+    border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     justify-content: center;
-      transition: color 0.2s, box-shadow 0.2s;
+    transition: box-shadow 0.2s;
   &:hover {
-    box-shadow: 0 0 5px rgba(255,255,255,0.5);
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
   }
 `;
 
@@ -248,14 +249,9 @@ export const DownloadButtonWrapper = styled.button`
   padding: 16px 28px;
   font-size: 1.1rem;
   font-weight: bold;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
   cursor: pointer;
   transition: box-shadow 0.2s, background 0.2s, color 0.2s;
-  &:hover {
-    box-shadow: 0 0 5px rgba(255,255,255,0.5);
-    background: ${white};
-    outline: none;
-  }
     @keyframes shake {
       0% { transform: translateX(0); }
       20% { transform: translateX(-5px); }
@@ -265,8 +261,10 @@ export const DownloadButtonWrapper = styled.button`
       100% { transform: translateX(0); }
     }
     &:hover {
-      box-shadow: 0 0 5px rgba(255,255,255,0.5);
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
       animation: shake 0.5s;
+      background: ${white};
+      outline: none;
     }
 `;
 
