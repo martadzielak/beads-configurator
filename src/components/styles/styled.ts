@@ -83,6 +83,23 @@ export const SectionText = styled.div`
 
 `
 
+export const WarningText = styled.div`
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: ${white};
+    font-weight: bold;
+
+      & > img {
+        vertical-align: middle;
+        margin-right: 8px;
+        width: 16px;
+        height: 16px;
+      }
+    display: flex;
+    align-items: center;
+`
+
 export const SectionContainer = styled.div`
   margin-bottom: 24px;
   padding: 12px 0;
