@@ -91,6 +91,7 @@ export const App = () => {
     const handleResetPixels = () => {
         const size = expectedSize(gridWidth, gridHeight, peyoteActive);
         setPixels(Array(size).fill(''));
+    setShowGridOverlay(true);
     };
 
     const handleAddToPalette = () => {
