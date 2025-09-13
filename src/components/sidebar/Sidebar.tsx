@@ -1,6 +1,7 @@
 "use client";
 import { FC, useEffect } from 'react';
 import { SidebarContainer, Heading, LogoImg } from '../styles/styled';
+import { GUIButton } from './common/GUIButton';
 import { MobileOverlay } from './common/MobileOverlay';
 import { Footer } from './common/Footer';
 import { GridDimensionsSection } from './sections/GridDimensionsSection';
@@ -8,6 +9,7 @@ import { BeadsDimensionsSection } from './sections/BeadsDimensionsSection';
 import { ColorPickerSection } from './sections/ColorPickerSection';
 import { GridOverlaySection } from './sections/GridOverlaySection';
 import { PeyoteModeSection } from './sections/PeyoteModeSection';
+import { ResetSection } from './sections/ResetSection';
 
 interface SidebarProps {
     color: string;
@@ -29,6 +31,7 @@ interface SidebarProps {
     setShowGridOverlay: (v: boolean) => void;
     peyoteActive: boolean;
     setPeyoteActive: (v: boolean) => void;
+    onResetPixels: () => void;
 };
 
 export const Sidebar: FC<SidebarProps> = ({
@@ -40,7 +43,8 @@ export const Sidebar: FC<SidebarProps> = ({
     pipetteActive, setPipetteActive,
     eraserActive, setEraserActive,
     showGridOverlay, setShowGridOverlay,
-    peyoteActive, setPeyoteActive
+    peyoteActive, setPeyoteActive,
+    onResetPixels
 }) => {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -51,7 +55,7 @@ export const Sidebar: FC<SidebarProps> = ({
                 setShowGridOverlay(!showGridOverlay);
             }
             if (e.key === 'e' || e.key === 'E') {
-                    setEraserActive(!eraserActive);
+                setEraserActive(!eraserActive);
             }
         };
         window.addEventListener('keydown', handleKeyDown);
@@ -93,6 +97,7 @@ export const Sidebar: FC<SidebarProps> = ({
                     showGridOverlay={showGridOverlay}
                     setShowGridOverlay={setShowGridOverlay}
                 />
+                <ResetSection onResetPixels={onResetPixels} />
                 <Footer />
             </SidebarContainer>
         </>

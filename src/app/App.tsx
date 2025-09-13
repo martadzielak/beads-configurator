@@ -76,6 +76,11 @@ export const App = () => {
 
     const loading = useLoader(1000);
 
+    const handleResetPixels = () => {
+        const size = expectedSize(gridWidth, gridHeight, peyoteActive);
+        setPixels(Array(size).fill(''));
+    };
+
     // Save all settings to localStorage when they change
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -124,6 +129,7 @@ export const App = () => {
                 setShowGridOverlay={setShowGridOverlay}
                 peyoteActive={peyoteActive}
                 setPeyoteActive={setPeyoteActive}
+                onResetPixels={handleResetPixels}
             />
             <Grid
                 gridWidth={gridWidth}

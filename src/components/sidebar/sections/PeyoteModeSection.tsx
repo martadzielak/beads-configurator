@@ -16,10 +16,6 @@ export const PeyoteModeSection: React.FC<Props> = ({ peyoteActive, onTogglePeyot
         <SectionText>
             Toggle peyote stitch mode for staggered rows.
         </SectionText>
-        <WarningText>
-            <Image src={warningIcon} alt="Warning" width={20} height={20} />
-            Caution! This will reset the pattern!
-        </WarningText>
         <GUIButton
             onClick={onTogglePeyote}
             active={peyoteActive}

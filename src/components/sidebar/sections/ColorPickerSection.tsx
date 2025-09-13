@@ -24,14 +24,14 @@ export const ColorPickerSection: React.FC<Props> = ({ color, setColor, pipetteAc
             onClick={() => setPipetteActive(!pipetteActive)}
             active={pipetteActive}
         >
-            <IconImg src="/pipette.png" alt="Pipette" style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }} $active={pipetteActive} />
+            <IconImg src="/pipette.png" alt="Pipette" $active={pipetteActive} />
             {pipetteActive ? 'Pipette (active) [P]' : 'Activate Pipette [P]'}
         </GUIButton>
         <GUIButton
             onClick={() => setEraserActive(!eraserActive)}
             active={eraserActive}
         >
-            <IconImg src="/eraser.png" alt="Eraser" style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }} $active={eraserActive} />
+            <IconImg src="/eraser.png" alt="Eraser" $active={eraserActive} />
             {eraserActive ? 'Eraser (active) [E]' : 'Activate Eraser [E]'}
         </GUIButton>
     </GUISectionContainer>
