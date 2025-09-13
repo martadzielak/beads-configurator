@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { white, mediumGray, lightGray, darkGray, black } from "./colors";
+import { white, mediumGray, lightGray, darkGray, black, red } from "./colors";
 
 export const ZoomButton = styled.button`
     font-size: 1.5rem;
@@ -197,6 +197,14 @@ export const Button = styled.button`
   transition: color 0.2s, box-shadow 0.2s;
   &:hover {
     box-shadow: 0 0 5px rgba(255,255,255,0.5);
+  }
+`;
+
+export const DangerButton = styled(Button)`
+  color: ${red};
+  border-color: ${red};
+  &:hover {
+    box-shadow: 0 0 5px rgba(255, 82, 82, 0.6);
   }
 `;
 

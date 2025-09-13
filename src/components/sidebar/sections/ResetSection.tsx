@@ -1,7 +1,6 @@
 import React from "react";
-import { WarningText, IconImg } from '../../styles/styled';
+import { WarningText, IconImg, DangerButton } from '../../styles/styled';
 import { GUISectionContainer } from '../common/GUISectionContainer';
-import { GUIButton } from '@/components/sidebar/common/GUIButton';
 import Image from "next/image";
 import warningIcon from "@/../public/warning.png";
 
@@ -10,14 +9,14 @@ interface ResetSectionProps {
 }
 
 export const ResetSection: React.FC<ResetSectionProps> = ({ onResetPixels }) => (
-    <GUISectionContainer label="Reset design">
-        <WarningText>
+    <GUISectionContainer label="Reset design" variant="danger">
+        <WarningText style={{ color: '#cc2020' }}>
             <Image src={warningIcon} alt="Warning" width={20} height={20} />
             Caution! The pattern will be lost!
         </WarningText>
-        <GUIButton onClick={onResetPixels} active={false}>
+        <DangerButton onClick={onResetPixels}>
             <IconImg src="/reset.png" alt="Reset" $active={false} />
             Reset design
-        </GUIButton>
+        </DangerButton>
     </GUISectionContainer>
 );
