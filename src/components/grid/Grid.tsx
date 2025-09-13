@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber';
 import { useRef, useImperativeHandle, forwardRef, useState, useEffect, useMemo, type Dispatch, type SetStateAction } from 'react';
-import { GridContainer, ZoomButton, ZoomButtonContainer } from '@/components/styles/styled';
+import { GridContainer, ZoomButton, ZoomButtonContainer, PaletteContainer, PaletteSwatch } from '@/components/styles/styled';
 import { calculatePixelOutlineLines, DownloadHelper, DownloadPNGHelper, getTotalPixels } from '@/helpers/helpers';
 import { PeyoteGrid } from './PeyoteGrid';
 import { RectGrid } from './RectGrid';
@@ -23,6 +23,7 @@ type GridProps = {
     onDownloadPNG?: () => void;
     downloadRequest: boolean;
     setDownloadRequest: (v: boolean) => void;
+    paletteColors: string[];
 };
 
 export const Grid = forwardRef(function Grid(props: GridProps, ref) {
@@ -41,7 +42,8 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
         downloadRequest,
         setDownloadRequest,
         showGridOverlay,
-        peyoteActive
+        peyoteActive,
+        paletteColors
     } = props;
 
     const [zoom, setZoom] = useState(50);
@@ -100,6 +102,13 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
                 <ZoomButton onClick={() => setZoom(z => Math.max(10, z - 5))}>-</ZoomButton>
             </ZoomButtonContainer>
             <GridContainer>
+                {paletteColors && paletteColors.length > 0 && (
+                    <PaletteContainer>
+                        {paletteColors.map((c, i) => (
+                            <PaletteSwatch key={`palette-${i}`} $color={c} title={c} onClick={() => setColor(c)} />
+                        ))}
+                    </PaletteContainer>
+                )}
                 <Canvas
                     orthographic
                     camera={{ zoom, position: [0, 0, 100] }}

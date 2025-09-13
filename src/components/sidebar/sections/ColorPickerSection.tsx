@@ -1,5 +1,4 @@
 import React from "react";
-import Image from 'next/image';
 import { IconImg, SectionText } from '../../styles/styled';
 import { GUISectionContainer } from '../common/GUISectionContainer';
 import { ColorPicker } from '@/components/sidebar/common/ColorPicker';
@@ -12,14 +11,19 @@ interface Props {
     setPipetteActive: (active: boolean) => void;
     eraserActive: boolean;
     setEraserActive: (active: boolean) => void;
+    onAddToPalette?: () => void;
 }
 
-export const ColorPickerSection: React.FC<Props> = ({ color, setColor, pipetteActive, setPipetteActive, eraserActive, setEraserActive }) => (
+export const ColorPickerSection: React.FC<Props> = ({ color, setColor, pipetteActive, setPipetteActive, eraserActive, setEraserActive, onAddToPalette }) => (
     <GUISectionContainer label="Pick color">
         <SectionText>
             Choose a bead color.
         </SectionText>
         <ColorPicker color={color} setColor={setColor} />
+        <GUIButton onClick={onAddToPalette} active={false}>
+            <IconImg src="/plus.png" alt="Add" $active={false} />
+            Add to palette
+        </GUIButton>
         <GUIButton
             onClick={() => setPipetteActive(!pipetteActive)}
             active={pipetteActive}

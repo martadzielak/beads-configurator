@@ -30,6 +30,31 @@ export const ZoomButtonContainer = styled.div`
     gap: 8px;
 `;
 
+export const PaletteContainer = styled.div`
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+`;
+
+interface SwatchProps { $color: string; }
+export const PaletteSwatch = styled.button<SwatchProps>`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid ${white};
+  background: ${({ $color }) => $color};
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  transition: box-shadow 0.2s, transform 0.05s;
+  &:hover { box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+  &:active { transform: scale(0.96); }
+`;
+
 interface IconImgProps {
   $active: boolean;
 }
@@ -181,6 +206,7 @@ export const GridContainer = styled.div`
     margin: 0 auto;
     user-select: none;
     cursor: pointer;
+  position: relative;
 `;
 
 export const Heading = styled.h1`

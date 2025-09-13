@@ -73,12 +73,33 @@ export const App = () => {
     const [eraserActive, setEraserActive] = useState(false);
     const [showGridOverlay, setShowGridOverlay] = useState(false);
     const [downloadRequest, setDownloadRequest] = useState(false);
+    const [paletteColors, setPaletteColors] = useState<string[]>(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('paletteColors');
+            if (saved) {
+                try {
+                    const arr = JSON.parse(saved);
+                    if (Array.isArray(arr)) return arr.slice(0, 20);
+                } catch { /* ignore */ }
+            }
+        }
+        return [];
+    });
 
     const loading = useLoader(1000);
 
     const handleResetPixels = () => {
         const size = expectedSize(gridWidth, gridHeight, peyoteActive);
         setPixels(Array(size).fill(''));
+    };
+
+    const handleAddToPalette = () => {
+        setPaletteColors(prev => {
+            if (prev.includes(color)) return prev; // no duplicates
+            const next = [...prev, color];
+            if (next.length > 20) next.shift();
+            return next;
+        });
     };
 
     // Save all settings to localStorage when they change
@@ -90,8 +111,9 @@ export const App = () => {
             localStorage.setItem('pixelHeight', String(pixelHeight));
             localStorage.setItem('peyoteActive', String(peyoteActive));
             localStorage.setItem('pixels', JSON.stringify(pixels));
+            localStorage.setItem('paletteColors', JSON.stringify(paletteColors));
         }
-    }, [gridWidth, gridHeight, pixelWidth, pixelHeight, peyoteActive, pixels]);
+    }, [gridWidth, gridHeight, pixelWidth, pixelHeight, peyoteActive, pixels, paletteColors]);
 
     // When grid config changes, pad/truncate pixels—preserve existing colors
     useEffect(() => {
@@ -130,6 +152,7 @@ export const App = () => {
                 peyoteActive={peyoteActive}
                 setPeyoteActive={setPeyoteActive}
                 onResetPixels={handleResetPixels}
+                onAddToPalette={handleAddToPalette}
             />
             <Grid
                 gridWidth={gridWidth}
@@ -146,6 +169,7 @@ export const App = () => {
                 downloadRequest={downloadRequest}
                 setDownloadRequest={setDownloadRequest}
                 peyoteActive={peyoteActive}
+                paletteColors={paletteColors}
             />
             <DownloadButton
                 onClick={() => setDownloadRequest(true)}

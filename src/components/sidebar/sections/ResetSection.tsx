@@ -1,5 +1,5 @@
 import React from "react";
-import { WarningText } from '../../styles/styled';
+import { WarningText, IconImg } from '../../styles/styled';
 import { GUISectionContainer } from '../common/GUISectionContainer';
 import { GUIButton } from '@/components/sidebar/common/GUIButton';
 import Image from "next/image";
@@ -16,6 +16,7 @@ export const ResetSection: React.FC<ResetSectionProps> = ({ onResetPixels }) => 
             Caution! The pattern will be lost!
         </WarningText>
         <GUIButton onClick={onResetPixels} active={false}>
+            <IconImg src="/reset.png" alt="Reset" $active={false} />
             Reset design
         </GUIButton>
     </GUISectionContainer>

@@ -1,7 +1,6 @@
 "use client";
 import { FC, useEffect } from 'react';
 import { SidebarContainer, Heading, LogoImg } from '../styles/styled';
-import { GUIButton } from './common/GUIButton';
 import { MobileOverlay } from './common/MobileOverlay';
 import { Footer } from './common/Footer';
 import { GridDimensionsSection } from './sections/GridDimensionsSection';
@@ -32,6 +31,7 @@ interface SidebarProps {
     peyoteActive: boolean;
     setPeyoteActive: (v: boolean) => void;
     onResetPixels: () => void;
+    onAddToPalette?: () => void;
 };
 
 export const Sidebar: FC<SidebarProps> = ({
@@ -44,7 +44,8 @@ export const Sidebar: FC<SidebarProps> = ({
     eraserActive, setEraserActive,
     showGridOverlay, setShowGridOverlay,
     peyoteActive, setPeyoteActive,
-    onResetPixels
+    onResetPixels,
+    onAddToPalette
 }) => {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -92,6 +93,7 @@ export const Sidebar: FC<SidebarProps> = ({
                     setPipetteActive={setPipetteActive}
                     eraserActive={eraserActive}
                     setEraserActive={setEraserActive}
+                    onAddToPalette={onAddToPalette}
                 />
                 <GridOverlaySection
                     showGridOverlay={showGridOverlay}
