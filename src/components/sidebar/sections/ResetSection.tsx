@@ -3,6 +3,7 @@ import { WarningText, IconImg, DangerButton } from '../../styles/styled';
 import { GUISectionContainer } from '../common/GUISectionContainer';
 import Image from "next/image";
 import warningIcon from "@/../public/warning.png";
+import { red } from "@/components/styles/colors";
 
 interface ResetSectionProps {
     onResetPixels: () => void;
@@ -10,7 +11,7 @@ interface ResetSectionProps {
 
 export const ResetSection: React.FC<ResetSectionProps> = ({ onResetPixels }) => (
     <GUISectionContainer label="Reset design" variant="danger">
-        <WarningText style={{ color: '#cc2020' }}>
+        <WarningText style={{ color: red }}>
             <Image src={warningIcon} alt="Warning" width={20} height={20} />
             Caution! The pattern will be lost!
         </WarningText>

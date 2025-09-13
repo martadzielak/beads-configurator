@@ -41,7 +41,7 @@ export const PaletteContainer = styled.div`
   align-items: center;
 `;
 
-interface SwatchProps { $color: string; }
+interface SwatchProps { $color: string; $selected?: boolean; }
 export const PaletteSwatch = styled.button<SwatchProps>`
   width: 32px;
   height: 32px;
@@ -49,6 +49,29 @@ export const PaletteSwatch = styled.button<SwatchProps>`
   border: 2px solid ${white};
   background: ${({ $color }) => $color};
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  transition: box-shadow 0.2s, transform 0.05s;
+  &:hover { box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+  &:active { transform: scale(0.96); }
+  ${({ $selected }) => $selected ? `
+    outline: 3px solid ${white};
+    outline-offset: 2px;
+  ` : ''}
+`;
+
+export const PaletteDeleteButton = styled.button`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: ${white};
+  color: ${black};
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  line-height: 1;
   box-shadow: 0 2px 8px rgba(0,0,0,0.5);
   transition: box-shadow 0.2s, transform 0.05s;
   &:hover { box-shadow: 0 0 5px rgba(0,0,0,0.5); }

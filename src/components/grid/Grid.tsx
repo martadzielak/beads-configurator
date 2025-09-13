@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber';
 import { useRef, useImperativeHandle, forwardRef, useState, useEffect, useMemo, type Dispatch, type SetStateAction } from 'react';
-import { GridContainer, ZoomButton, ZoomButtonContainer, PaletteContainer, PaletteSwatch } from '@/components/styles/styled';
+import { GridContainer, ZoomButton, ZoomButtonContainer, PaletteContainer, PaletteSwatch, PaletteDeleteButton } from '@/components/styles/styled';
 import { calculatePixelOutlineLines, DownloadHelper, DownloadPNGHelper, getTotalPixels } from '@/helpers/helpers';
 import { PeyoteGrid } from './PeyoteGrid';
 import { RectGrid } from './RectGrid';
@@ -24,6 +24,7 @@ type GridProps = {
     downloadRequest: boolean;
     setDownloadRequest: (v: boolean) => void;
     paletteColors: string[];
+    onRemovePaletteColor?: (hex: string) => void;
 };
 
 export const Grid = forwardRef(function Grid(props: GridProps, ref) {
@@ -43,11 +44,13 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
         setDownloadRequest,
         showGridOverlay,
         peyoteActive,
-        paletteColors
+        paletteColors,
+        onRemovePaletteColor
     } = props;
 
     const [zoom, setZoom] = useState(50);
     const [mouseDown, setMouseDown] = useState(false);
+    const [selectedSwatch, setSelectedSwatch] = useState<string | null>(null);
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
     const cameraRef = useRef<THREE.OrthographicCamera | null>(null);
     const totalPixels = getTotalPixels(gridWidth, gridHeight, peyoteActive);
@@ -77,6 +80,20 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
         }
     }));
 
+    // Un-highlight swatch if user changes color away from the selected swatch
+    useEffect(() => {
+        if (selectedSwatch && color !== selectedSwatch) {
+            setSelectedSwatch(null);
+        }
+    }, [color, selectedSwatch]);
+
+    // If the selected swatch gets removed from palette, clear selection
+    useEffect(() => {
+        if (selectedSwatch && !paletteColors.includes(selectedSwatch)) {
+            setSelectedSwatch(null);
+        }
+    }, [paletteColors, selectedSwatch]);
+
 
 
     const handlePixelPaint = (idx: number) => {
@@ -105,8 +122,29 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
                 {paletteColors && paletteColors.length > 0 && (
                     <PaletteContainer>
                         {paletteColors.map((c, i) => (
-                            <PaletteSwatch key={`palette-${i}`} $color={c} title={c} onClick={() => setColor(c)} />
+                            <PaletteSwatch
+                                key={`palette-${i}`}
+                                $color={c}
+                                $selected={selectedSwatch === c}
+                                title={c}
+                                onClick={() => {
+                                    setSelectedSwatch(c);
+                                    setColor(c);
+                                }}
+                            />
                         ))}
+                        {selectedSwatch && onRemovePaletteColor && (
+                            <PaletteDeleteButton
+                                aria-label="Remove selected color"
+                                title="Remove selected color"
+                                onClick={() => {
+                                    onRemovePaletteColor(selectedSwatch);
+                                    setSelectedSwatch(null);
+                                }}
+                            >
+                                ×
+                            </PaletteDeleteButton>
+                        )}
                     </PaletteContainer>
                 )}
                 <Canvas

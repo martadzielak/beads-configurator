@@ -103,6 +103,10 @@ export const App = () => {
         });
     };
 
+    const handleRemoveFromPalette = (hex: string) => {
+        setPaletteColors(prev => prev.filter(c => c !== hex));
+    };
+
     // Save all settings to localStorage when they change
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -171,6 +175,7 @@ export const App = () => {
                 setDownloadRequest={setDownloadRequest}
                 peyoteActive={peyoteActive}
                 paletteColors={paletteColors}
+                onRemovePaletteColor={handleRemoveFromPalette}
             />
             <DownloadButton
                 onClick={() => setDownloadRequest(true)}
