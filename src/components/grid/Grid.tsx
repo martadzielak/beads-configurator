@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import { useRef, useImperativeHandle, forwardRef, useState, useEffect, useMemo } from 'react';
+import { useRef, useImperativeHandle, forwardRef, useState, useEffect, useMemo, type Dispatch, type SetStateAction } from 'react';
 import { GridContainer, ZoomButton, ZoomButtonContainer } from '@/components/styles/styled';
 import { calculatePixelOutlineLines, DownloadHelper, DownloadPNGHelper, getTotalPixels } from '@/helpers/helpers';
 import { PeyoteGrid } from './PeyoteGrid';
@@ -14,7 +14,7 @@ type GridProps = {
     pixelHeight: number;
     color: string;
     pixels: string[];
-    setPixels: (pixels: string[]) => void;
+    setPixels: Dispatch<SetStateAction<string[]>>;
     showGridOverlay: boolean;
     peyoteActive: boolean;
     pipetteActive: boolean;
@@ -59,7 +59,12 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
 
     useEffect(() => {
         if (pixels.length !== totalPixels) {
-            setPixels(Array(totalPixels).fill(""));
+            setPixels((prev: string[]) => {
+                const arr = Array.isArray(prev) ? prev : [] as string[];
+                if (arr.length < totalPixels) return arr.concat(Array(totalPixels - arr.length).fill(""));
+                if (arr.length > totalPixels) return arr.slice(0, totalPixels);
+                return arr;
+            });
         }
     }, [totalPixels, pixels.length, setPixels]);
 
@@ -116,7 +121,6 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
                             pixelHeight={pixelHeight}
                             pixels={pixels}
                             pipetteActive={pipetteActive}
-                            eraserActive={eraserActive}
                             setColor={setColor}
                             handlePixelPaint={handlePixelPaint}
                         />
@@ -128,7 +132,6 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
                             pixelHeight={pixelHeight}
                             pixels={pixels}
                             pipetteActive={pipetteActive}
-                            eraserActive={eraserActive}
                             setColor={setColor}
                             handlePixelPaint={handlePixelPaint}
                         />

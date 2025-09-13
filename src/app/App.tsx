@@ -2,20 +2,70 @@
 import { DownloadButton } from "@/components/sidebar/common/DownloadButton";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import { Grid } from "@/components/grid/Grid";
+import { getTotalPixels } from "@/helpers/helpers";
 import { useState, useEffect } from "react";
 import { Loader, useLoader } from "@/components/common/Loader";
 
 export const App = () => {
+    const expectedSize = (w: number, h: number, peyote: boolean) => getTotalPixels(w, h, peyote);
+
     const [color, setColor] = useState('#ff0000');
-    const [gridWidth, setGridWidth] = useState(85);
-    const [gridHeight, setGridHeight] = useState(19);
-    const [pixelWidth, setPixelWidth] = useState(3);
-    const [pixelHeight, setPixelHeight] = useState(2);
-    const [pixels, setPixels] = useState(() => {
-        // Load from localStorage if available
+    const [gridWidth, setGridWidth] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const v = localStorage.getItem('gridWidth');
+            return v ? Number(v) : 85;
+        }
+        return 85;
+    });
+    const [gridHeight, setGridHeight] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const v = localStorage.getItem('gridHeight');
+            return v ? Number(v) : 19;
+        }
+        return 19;
+    });
+    const [pixelWidth, setPixelWidth] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const v = localStorage.getItem('pixelWidth');
+            return v ? Number(v) : 3;
+        }
+        return 3;
+    });
+    const [pixelHeight, setPixelHeight] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const v = localStorage.getItem('pixelHeight');
+            return v ? Number(v) : 2;
+        }
+        return 2;
+    });
+    const [peyoteActive, setPeyoteActive] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const v = localStorage.getItem('peyoteActive');
+            return v ? v === 'true' : false;
+        }
+        return false;
+    });
+    const [pixels, setPixels] = useState<string[]>(() => {
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem('pixels');
-            if (saved) return JSON.parse(saved);
+            const w = localStorage.getItem('gridWidth');
+            const h = localStorage.getItem('gridHeight');
+            const p = localStorage.getItem('peyoteActive');
+            const gw = w ? Number(w) : 85;
+            const gh = h ? Number(h) : 19;
+            const pey = p ? p === 'true' : false;
+            const size = expectedSize(gw, gh, pey);
+            if (saved) {
+                try {
+                    let arr = JSON.parse(saved);
+                    if (Array.isArray(arr)) {
+                        if (arr.length < size) arr = arr.concat(Array(size - arr.length).fill(''));
+                        else if (arr.length > size) arr = arr.slice(0, size);
+                        return arr;
+                    }
+                } catch { /* ignore */ }
+            }
+            return Array(size).fill('');
         }
         return Array(85 * 19).fill('');
     });
@@ -23,41 +73,33 @@ export const App = () => {
     const [eraserActive, setEraserActive] = useState(false);
     const [showGridOverlay, setShowGridOverlay] = useState(false);
     const [downloadRequest, setDownloadRequest] = useState(false);
-    const [peyoteActive, setPeyoteActive] = useState(false);
 
     const loading = useLoader(1000);
 
+    // Save all settings to localStorage when they change
     useEffect(() => {
-        if (peyoteActive) {
-            // Only odd columns
-            const oddCols = Math.floor(gridWidth / 2) + (gridWidth % 2);
-            setPixels(Array(oddCols * gridHeight).fill(''));
-        } else {
-            setPixels(Array(gridWidth * gridHeight).fill(''));
-        }
-    }, [gridWidth, gridHeight, peyoteActive]);
-
-    useEffect(() => {
-        // Save to localStorage on every change
         if (typeof window !== 'undefined') {
+            localStorage.setItem('gridWidth', String(gridWidth));
+            localStorage.setItem('gridHeight', String(gridHeight));
+            localStorage.setItem('pixelWidth', String(pixelWidth));
+            localStorage.setItem('pixelHeight', String(pixelHeight));
+            localStorage.setItem('peyoteActive', String(peyoteActive));
             localStorage.setItem('pixels', JSON.stringify(pixels));
         }
-    }, [pixels]);
+    }, [gridWidth, gridHeight, pixelWidth, pixelHeight, peyoteActive, pixels]);
 
+    // When grid config changes, pad/truncate pixels—preserve existing colors
     useEffect(() => {
-        // Restore from localStorage when grid size changes
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('pixels');
-            if (saved) {
-                const arr = JSON.parse(saved);
-                if (Array.isArray(arr) && arr.length === gridWidth * gridHeight) {
-                    setPixels(arr);
-                    return;
-                }
-            }
+        const size = expectedSize(gridWidth, gridHeight, peyoteActive);
+        if (pixels.length !== size) {
+            setPixels(prev => {
+                const arr = Array.isArray(prev) ? prev : [];
+                if (arr.length < size) return arr.concat(Array(size - arr.length).fill(''));
+                if (arr.length > size) return arr.slice(0, size);
+                return arr;
+            });
         }
-        setPixels(Array(gridWidth * gridHeight).fill(''));
-    }, [gridWidth, gridHeight]);
+    }, [gridWidth, gridHeight, peyoteActive, pixels.length]);
 
     if (loading) return <Loader />;
 

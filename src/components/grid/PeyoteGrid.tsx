@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { mediumGray } from "../styles/colors";
-import { getPeyotePixelIdx } from '@/helpers/helpers';
 
 interface PeyoteGridProps {
     gridWidth: number;
@@ -9,7 +8,6 @@ interface PeyoteGridProps {
     pixelHeight: number;
     pixels: string[];
     pipetteActive: boolean;
-    eraserActive: boolean;
     setColor: (color: string) => void;
     handlePixelPaint: (pixelIdx: number) => void;
 };
@@ -21,7 +19,6 @@ export function PeyoteGrid({
     pixelHeight,
     pixels,
     pipetteActive,
-    eraserActive,
     setColor,
     handlePixelPaint
 }: PeyoteGridProps) {
@@ -35,7 +32,15 @@ export function PeyoteGrid({
                     if (rowIdx % 2 === 1) {
                         px += (pixelWidth / 10) / 2;
                     }
-                    const pixelIdx = getPeyotePixelIdx(rowIdx, colIdx, gridWidth);
+                    // Column-major index for peyote using slot-based mapping
+                    // Even rows occupy even slots (true columns), odd rows occupy odd slots (between columns)
+                    const evenRowsCount = Math.ceil(gridHeight / 2);
+                    const oddRowsCount = Math.floor(gridHeight / 2);
+                    const slotIndex = (rowIdx % 2 === 0) ? (colIdx * 2) : (colIdx * 2 + 1);
+                    const pairsBefore = Math.floor(slotIndex / 2);
+                    let pixelIdx = pairsBefore * (evenRowsCount + oddRowsCount);
+                    if (slotIndex % 2 === 1) pixelIdx += evenRowsCount;
+                    pixelIdx += Math.floor(rowIdx / 2);
                     const isFilled = !!pixels[pixelIdx];
                     return (
                         <Fragment key={`peyote-pixel-${rowIdx}-${colIdx}`}>

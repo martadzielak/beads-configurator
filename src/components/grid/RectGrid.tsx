@@ -8,7 +8,6 @@ interface RectGridProps {
     pixelHeight: number;
     pixels: string[];
     pipetteActive: boolean;
-    eraserActive: boolean;
     setColor: (color: string) => void;
     handlePixelPaint: (idx: number) => void;
 };
@@ -20,28 +19,29 @@ export function RectGrid({
     pixelHeight,
     pixels,
     pipetteActive,
-    eraserActive,
     setColor,
     handlePixelPaint
 }: RectGridProps) {
     return (
         <>
             {Array.from({ length: gridWidth * gridHeight }).map((_, idx) => {
-                const x = idx % gridWidth;
-                const y = Math.floor(idx / gridWidth);
+                // Column-major indexing: columns first (x), then rows (y)
+                const x = Math.floor(idx / gridHeight);
+                const y = idx % gridHeight;
                 const px = (x + 0.5) * pixelWidth / 10 - (gridWidth * pixelWidth / 10) / 2;
                 const py = (y + 0.5) * pixelHeight / 10 - (gridHeight * pixelHeight / 10) / 2;
-                const isFilled = !!pixels[idx];
+                const pixelIdx = x * gridHeight + y;
+                const isFilled = !!pixels[pixelIdx];
                 return (
                     <Fragment key={`pixel-${idx}`}>
                         <mesh
                             position={[px, py, 0]}
-                            onClick={() => pipetteActive && isFilled ? setColor(pixels[idx]) : !pipetteActive ? handlePixelPaint(idx) : undefined}
-                            onPointerOver={() => !pipetteActive && handlePixelPaint(idx)}
+                            onClick={() => pipetteActive && isFilled ? setColor(pixels[pixelIdx]) : !pipetteActive ? handlePixelPaint(pixelIdx) : undefined}
+                            onPointerOver={() => !pipetteActive && handlePixelPaint(pixelIdx)}
                         >
                             <boxGeometry args={[pixelWidth / 10, pixelHeight / 10, 0.1]} />
                             {isFilled ? (
-                                <meshBasicMaterial color={pixels[idx]} transparent opacity={1} />
+                                <meshBasicMaterial color={pixels[pixelIdx]} transparent opacity={1} />
                             ) : (
                                 <meshBasicMaterial color={mediumGray} wireframe />
                             )}
