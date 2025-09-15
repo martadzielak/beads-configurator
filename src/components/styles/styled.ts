@@ -308,6 +308,8 @@ export const MobileOverlayCaption = styled.div`
   margin-top: 24px;
   padding: 0 20px;
   font-size: 14px;
+  font-weight: 400;
+  max-width: 400px;
 `;
 
 export const DownloadButtonWrapper = styled.button`
