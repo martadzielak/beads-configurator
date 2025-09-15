@@ -1,9 +1,7 @@
 import React from "react";
 import { GUISectionContainer } from '../common/GUISectionContainer';
 import { SizePicker } from '@/components/sidebar/common/SizePicker';
-import { SectionText, WarningText } from "@/components/styles/styled";
-import warningIcon from "@/../public/warning.png";
-import Image from "next/image";
+import { SectionText } from "@/components/styles/styled";
 
 interface Props {
     gridWidth: number;

@@ -1,10 +1,9 @@
 import React from "react";
-import { SectionText, WarningText } from '../../styles/styled';
+import { SectionText } from '../../styles/styled';
 import { IconImg } from '@/components/styles/styled';
 import { GUISectionContainer } from '../common/GUISectionContainer';
 import { GUIButton } from '@/components/sidebar/common/GUIButton';
-import Image from "next/image";
-import warningIcon from "@/../public/warning.png";
+
 
 interface Props {
     peyoteActive: boolean;
