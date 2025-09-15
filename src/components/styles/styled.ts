@@ -2,19 +2,19 @@ import styled from "styled-components";
 import { white, mediumGray, lightGray, darkGray, black, red } from "./colors";
 
 export const ZoomButton = styled.button`
-    font-size: 1.5rem;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: ${white};
-    color: ${black};
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    justify-content: center;
-    transition: box-shadow 0.2s;
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: ${white};
+  color: ${black};
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  transition: box-shadow 0.2s;
   &:hover {
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
   }
@@ -60,6 +60,7 @@ export const PaletteSwatch = styled.button<SwatchProps>`
 `;
 
 export const PaletteDeleteButton = styled.button`
+  font-size: 1.5rem;
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -70,12 +71,25 @@ export const PaletteDeleteButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  line-height: 1;
   box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-  transition: box-shadow 0.2s, transform 0.05s;
-  &:hover { box-shadow: 0 0 5px rgba(0,0,0,0.5); }
-  &:active { transform: scale(0.96); }
+  transition: box-shadow 0.2s;
+  &:hover {
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  }
+`;
+
+export const PaletteDeleteIcon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  transform-origin: center center;
+  user-select: none;
+  pointer-events: none;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1;
 `;
 
 interface IconImgProps {

@@ -1,5 +1,5 @@
 "use client";
-import { DownloadButton } from "@/components/sidebar/common/DownloadButton";
+import { DownloadButton } from "@/components/grid/common/DownloadButton";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import { Grid } from "@/components/grid/Grid";
 import { getTotalPixels } from "@/helpers/helpers";
@@ -91,7 +91,7 @@ export const App = () => {
     const handleResetPixels = () => {
         const size = expectedSize(gridWidth, gridHeight, peyoteActive);
         setPixels(Array(size).fill(''));
-    setShowGridOverlay(true);
+        setShowGridOverlay(true);
     };
 
     const handleAddToPalette = () => {
