@@ -21,9 +21,8 @@ export const SizePicker: React.FC<SizePickerProps> = ({ label, min, max, step, v
             value={Number.isFinite(value as number) ? String(value) : ""}
             onChange={(e) => {
                 const n = Number(e.target.value);
-                if (!Number.isFinite(n)) return; // ignore NaN
+                if (!Number.isFinite(n)) return;
                 if (n < min || n > max) {
-                    // Allow typing intermediate value by not forcing clamp here; delegate to parent if needed
                     onChange(e);
                     return;
                 }
