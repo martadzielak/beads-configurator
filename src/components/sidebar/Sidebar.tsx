@@ -1,5 +1,5 @@
 "use client";
-import { FC, useEffect } from 'react';
+import { FC, useEffect, HTMLAttributes } from 'react';
 import { SidebarContainer, Heading, LogoImg } from '../styles/styled';
 import { MobileOverlay } from './common/MobileOverlay';
 import { Footer } from './common/Footer';
@@ -10,7 +10,7 @@ import { GridOverlaySection } from './sections/GridOverlaySection';
 import { PeyoteModeSection } from './sections/PeyoteModeSection';
 import { ResetSection } from './sections/ResetSection';
 
-interface SidebarProps {
+interface SidebarProps extends HTMLAttributes<HTMLDivElement> {
     color: string;
     setColor: (color: string) => void;
     gridWidth: number;
@@ -45,7 +45,8 @@ export const Sidebar: FC<SidebarProps> = ({
     showGridOverlay, setShowGridOverlay,
     peyoteActive, setPeyoteActive,
     onResetPixels,
-    onAddToPalette
+    onAddToPalette,
+    ...rest
 }) => {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -67,7 +68,7 @@ export const Sidebar: FC<SidebarProps> = ({
     return (
         <>
             <MobileOverlay />
-            <SidebarContainer>
+            <SidebarContainer {...rest}>
                 <LogoImg src="/peyote_black.png" alt="peyote logo" />
                 <Heading>Settings</Heading>
                 <PeyoteModeSection
