@@ -15,6 +15,7 @@ import {
     PALETTE_MAX,
     LOADER_DELAY_MS,
 } from './defaults';
+import { GlobalContainer } from "@/components/styles/styled";
 
 export const App = () => {
     const expectedSize = (w: number, h: number, peyote: boolean) => getTotalPixels(w, h, peyote);
@@ -84,7 +85,7 @@ export const App = () => {
     if (loading) return <Loader />;
 
     return (
-        <div style={{ display: 'flex', height: '100vh' }}>
+        <GlobalContainer>
             <Sidebar
                 color={color}
                 setColor={setColor}
@@ -128,6 +129,6 @@ export const App = () => {
             <DownloadButton
                 onClick={() => setDownloadRequest(true)}
             />
-        </div>
+        </GlobalContainer>
     );
 }
