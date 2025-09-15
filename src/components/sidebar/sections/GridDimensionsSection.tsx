@@ -16,7 +16,7 @@ export const GridDimensionsSection: React.FC<Props> = ({ gridWidth, setGridWidth
         <SectionText>
             Adjust the grid dimensions.
         </SectionText>
-        <SizePicker label={"Grid width"} min={2} max={100} step={1} value={gridWidth} onChange={e => setGridWidth(Number(e.target.value))} />
-        <SizePicker label={"Grid height"} min={2} max={50} step={1} value={gridHeight} onChange={e => setGridHeight(Number(e.target.value))} />
+    <SizePicker label={"Grid width"} min={2} max={100} step={1} value={gridWidth} onChange={e => { const n = Number(e.target.value); if (!Number.isFinite(n)) return; setGridWidth(n); }} />
+    <SizePicker label={"Grid height"} min={2} max={50} step={1} value={gridHeight} onChange={e => { const n = Number(e.target.value); if (!Number.isFinite(n)) return; setGridHeight(n); }} />
     </GUISectionContainer>
 );

@@ -2,91 +2,48 @@
 import { DownloadButton } from "@/components/grid/common/DownloadButton";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import { Grid } from "@/components/grid/Grid";
-import { getTotalPixels } from "@/helpers/helpers";
+import { getInitialBooleanValue, getInitialNumberValue, getInitialPaletteColors, getInitialPixels, getInitialPixelsValues, getTotalPixels } from "@/helpers/helpers";
 import { useState, useEffect } from "react";
 import { Loader, useLoader } from "@/components/common/Loader";
+import {
+    DEFAULT_COLOR,
+    DEFAULT_GRID_WIDTH,
+    DEFAULT_GRID_HEIGHT,
+    DEFAULT_PIXEL_WIDTH,
+    DEFAULT_PIXEL_HEIGHT,
+    DEFAULT_PEYOTE_ACTIVE,
+    PALETTE_MAX,
+    LOADER_DELAY_MS,
+} from './defaults';
 
 export const App = () => {
     const expectedSize = (w: number, h: number, peyote: boolean) => getTotalPixels(w, h, peyote);
-
-    const [color, setColor] = useState('#ff0000');
+    const [color, setColor] = useState(DEFAULT_COLOR);
     const [gridWidth, setGridWidth] = useState(() => {
-        if (typeof window !== 'undefined') {
-            const v = localStorage.getItem('gridWidth');
-            return v ? Number(v) : 85;
-        }
-        return 85;
+        return getInitialNumberValue(DEFAULT_GRID_WIDTH, 'gridWidth');
     });
     const [gridHeight, setGridHeight] = useState(() => {
-        if (typeof window !== 'undefined') {
-            const v = localStorage.getItem('gridHeight');
-            return v ? Number(v) : 19;
-        }
-        return 19;
+        return getInitialNumberValue(DEFAULT_GRID_HEIGHT, 'gridHeight');
     });
     const [pixelWidth, setPixelWidth] = useState(() => {
-        if (typeof window !== 'undefined') {
-            const v = localStorage.getItem('pixelWidth');
-            return v ? Number(v) : 3;
-        }
-        return 3;
+        return getInitialNumberValue(DEFAULT_PIXEL_WIDTH, 'pixelWidth');
     });
     const [pixelHeight, setPixelHeight] = useState(() => {
-        if (typeof window !== 'undefined') {
-            const v = localStorage.getItem('pixelHeight');
-            return v ? Number(v) : 2;
-        }
-        return 2;
+        return getInitialNumberValue(DEFAULT_PIXEL_HEIGHT, 'pixelHeight');
     });
     const [peyoteActive, setPeyoteActive] = useState(() => {
-        if (typeof window !== 'undefined') {
-            const v = localStorage.getItem('peyoteActive');
-            return v ? v === 'true' : false;
-        }
-        return false;
+        return getInitialBooleanValue(DEFAULT_PEYOTE_ACTIVE, 'peyoteActive');
     });
-    const [pixels, setPixels] = useState<string[]>(() => {
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('pixels');
-            const w = localStorage.getItem('gridWidth');
-            const h = localStorage.getItem('gridHeight');
-            const p = localStorage.getItem('peyoteActive');
-            const gw = w ? Number(w) : 85;
-            const gh = h ? Number(h) : 19;
-            const pey = p ? p === 'true' : false;
-            const size = expectedSize(gw, gh, pey);
-            if (saved) {
-                try {
-                    let arr = JSON.parse(saved);
-                    if (Array.isArray(arr)) {
-                        if (arr.length < size) arr = arr.concat(Array(size - arr.length).fill(''));
-                        else if (arr.length > size) arr = arr.slice(0, size);
-                        return arr;
-                    }
-                } catch { /* ignore */ }
-            }
-            return Array(size).fill('');
-        }
-        return Array(85 * 19).fill('');
-    });
+    const [pixels, setPixels] = useState<string[]>(getInitialPixels(expectedSize));
     const [pipetteActive, setPipetteActive] = useState(false);
     const [eraserActive, setEraserActive] = useState(false);
     const [showGridOverlay, setShowGridOverlay] = useState(false);
     const [downloadRequest, setDownloadRequest] = useState(false);
-    const [paletteColors, setPaletteColors] = useState<string[]>(() => {
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('paletteColors');
-            if (saved) {
-                try {
-                    const arr = JSON.parse(saved);
-                    if (Array.isArray(arr)) return arr.slice(0, 20);
-                } catch { /* ignore */ }
-            }
-        }
-        return [];
-    });
+    const [paletteColors, setPaletteColors] = useState<string[]>(() =>
+        getInitialPaletteColors()
+    );
 
-    const loading = useLoader(1000);
+    const loading = useLoader(LOADER_DELAY_MS);
 
     const handleResetPixels = () => {
         const size = expectedSize(gridWidth, gridHeight, peyoteActive);
@@ -96,9 +53,9 @@ export const App = () => {
 
     const handleAddToPalette = () => {
         setPaletteColors(prev => {
-            if (prev.includes(color)) return prev; // no duplicates
+            if (prev.includes(color)) return prev;
             const next = [...prev, color];
-            if (next.length > 20) next.shift();
+            if (next.length > PALETTE_MAX) next.shift();
             return next;
         });
     };
@@ -107,7 +64,6 @@ export const App = () => {
         setPaletteColors(prev => prev.filter(c => c !== hex));
     };
 
-    // Save all settings to localStorage when they change
     useEffect(() => {
         if (typeof window !== 'undefined') {
             localStorage.setItem('gridWidth', String(gridWidth));
@@ -120,17 +76,9 @@ export const App = () => {
         }
     }, [gridWidth, gridHeight, pixelWidth, pixelHeight, peyoteActive, pixels, paletteColors]);
 
-    // When grid config changes, pad/truncate pixels—preserve existing colors
     useEffect(() => {
         const size = expectedSize(gridWidth, gridHeight, peyoteActive);
-        if (pixels.length !== size) {
-            setPixels(prev => {
-                const arr = Array.isArray(prev) ? prev : [];
-                if (arr.length < size) return arr.concat(Array(size - arr.length).fill(''));
-                if (arr.length > size) return arr.slice(0, size);
-                return arr;
-            });
-        }
+        return getInitialPixelsValues(pixels, setPixels, size);
     }, [gridWidth, gridHeight, peyoteActive, pixels.length]);
 
     if (loading) return <Loader />;

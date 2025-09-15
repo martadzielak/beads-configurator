@@ -15,7 +15,7 @@ export const BeadsDimensionsSection: React.FC<Props> = ({ pixelWidth, setPixelWi
         <SectionText>
             Set bead size in mm.
         </SectionText>
-        <SizePicker label={"Bead width"} min={1} max={10} step={0.1} value={pixelWidth} onChange={e => setPixelWidth(Number(e.target.value))} />
-        <SizePicker label={"Bead height"} min={1} max={10} step={0.1} value={pixelHeight} onChange={e => setPixelHeight(Number(e.currentTarget.value))} />
+    <SizePicker label={"Bead width"} min={1} max={10} step={0.1} value={pixelWidth} onChange={e => { const n = Number(e.target.value); if (!Number.isFinite(n)) return; setPixelWidth(n); }} />
+    <SizePicker label={"Bead height"} min={1} max={10} step={0.1} value={pixelHeight} onChange={e => { const n = Number(e.currentTarget.value); if (!Number.isFinite(n)) return; setPixelHeight(n); }} />
     </GUISectionContainer>
 );

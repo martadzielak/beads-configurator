@@ -1,5 +1,12 @@
 import { useThree } from "@react-three/fiber";
 import React from "react";
+import {
+    DEFAULT_GRID_WIDTH,
+    DEFAULT_GRID_HEIGHT,
+    DEFAULT_PEYOTE_ACTIVE,
+    PALETTE_MAX,
+    DEFAULT_PALETTE
+} from '@/app/defaults';
 
 export const DownloadHelper = ({ triggerDownload }: { triggerDownload?: () => void }) => {
     const { gl, scene, camera } = useThree();
@@ -109,4 +116,93 @@ export const getTotalPixels = (gridWidth: number, gridHeight: number, peyoteActi
         count += (row % 2 === 0) ? gridWidth : (gridWidth - 1);
     }
     return count;
+}
+
+export const getInitialPixels = (expectedSize: (gw: number, gh: number, pey: boolean) => number): string[] => {
+    if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem('pixels');
+        const w = localStorage.getItem('gridWidth');
+        const h = localStorage.getItem('gridHeight');
+        const p = localStorage.getItem('peyoteActive');
+        const parsedW = w !== null ? Number(w) : NaN;
+        const parsedH = h !== null ? Number(h) : NaN;
+        const gw = Number.isFinite(parsedW) ? parsedW : DEFAULT_GRID_WIDTH;
+        const gh = Number.isFinite(parsedH) ? parsedH : DEFAULT_GRID_HEIGHT;
+        const pey = p !== null ? (p === 'true') : DEFAULT_PEYOTE_ACTIVE;
+        const size = expectedSize(gw, gh, pey);
+        if (saved) {
+            try {
+                let arr = JSON.parse(saved);
+                if (Array.isArray(arr)) {
+                    if (arr.length < size) arr = arr.concat(Array(size - arr.length).fill(''));
+                    else if (arr.length > size) arr = arr.slice(0, size);
+                    return arr;
+                }
+            } catch { }
+        }
+        return Array(size).fill('');
+    }
+    const fallbackSize = expectedSize(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT, DEFAULT_PEYOTE_ACTIVE);
+    return Array(fallbackSize).fill('');
+};
+
+export const getInitialNumberValue = (defaultValue: number, item: string) => {
+    if (typeof window !== 'undefined') {
+        const v = localStorage.getItem(item);
+        if (v === null) return defaultValue;
+        const n = Number(v);
+        return Number.isFinite(n) ? n : defaultValue;
+    }
+    return defaultValue;
+};
+
+export const getInitialStringValue = (defaultValue: string, item: string) => {
+    if (typeof window !== 'undefined') {
+        const v = localStorage.getItem(item);
+        return v ? String(v) : defaultValue;
+    }
+    return defaultValue;
+};
+
+export const getInitialBooleanValue = (defaultValue: boolean, item: string) => {
+    if (typeof window !== 'undefined') {
+        const v = localStorage.getItem(item);
+        if (v === null) return defaultValue;
+        if (v === 'true') return true;
+        if (v === 'false') return false;
+        return defaultValue;
+    }
+    return defaultValue;
+};
+
+interface SetPixelsFunction {
+    (prev: string[]): string[];
+}
+
+export const getInitialPixelsValues = (
+    pixels: string[],
+    setPixels: (fn: SetPixelsFunction) => void,
+    size: number
+): void => {
+    if (pixels.length !== size) {
+        setPixels((prev: string[]) => {
+            const arr: string[] = Array.isArray(prev) ? prev : [];
+            if (arr.length < size) return arr.concat(Array(size - arr.length).fill(''));
+            if (arr.length > size) return arr.slice(0, size);
+            return arr;
+        });
+    }
+}
+
+export const getInitialPaletteColors = (): string[] => {
+    if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem('paletteColors');
+        if (saved) {
+            try {
+                const arr = JSON.parse(saved);
+                if (Array.isArray(arr)) return arr.slice(0, PALETTE_MAX);
+            } catch { }
+        }
+    }
+    return DEFAULT_PALETTE;
 }

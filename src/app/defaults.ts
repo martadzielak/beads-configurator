@@ -1,0 +1,9 @@
+export const DEFAULT_COLOR = '#ff0000';
+export const DEFAULT_GRID_WIDTH = 85;
+export const DEFAULT_GRID_HEIGHT = 19;
+export const DEFAULT_PIXEL_WIDTH = 3;
+export const DEFAULT_PIXEL_HEIGHT = 2;
+export const DEFAULT_PEYOTE_ACTIVE = false;
+export const PALETTE_MAX = 20;
+export const LOADER_DELAY_MS = 1000;
+export const DEFAULT_PALETTE: string[] = [];
