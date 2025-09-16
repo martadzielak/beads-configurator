@@ -1,4 +1,4 @@
-import { mediumGray } from "../styles/colors"
+import { mediumGray } from "../../app/colors"
 
 interface GridOverlayProps {
     pixelOutlineLines: ArrayLike<number> | ArrayBuffer;

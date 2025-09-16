@@ -3,7 +3,7 @@ import { WarningText, IconImg, DangerButton } from '../../styles/styled';
 import { GUISectionContainer } from '../common/GUISectionContainer';
 import Image from "next/image";
 import warningIcon from "@/../public/warning.png";
-import { red } from "@/components/styles/colors";
+import { red } from "@/app/colors";
 
 interface ResetSectionProps {
     onResetPixels: () => void;

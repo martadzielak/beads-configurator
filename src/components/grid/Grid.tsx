@@ -1,12 +1,12 @@
 import { Canvas } from '@react-three/fiber';
-import { useRef, useImperativeHandle, forwardRef, useState, useEffect, useMemo, type Dispatch, type SetStateAction } from 'react';
+import { useRef, useImperativeHandle, forwardRef, useState, useMemo, type Dispatch, type SetStateAction, useEffect } from 'react';
 import { GridContainer } from '@/components/styles/styled';
 import { Palette } from './common/Palette';
 import { calculatePixelOutlineLines, DownloadHelper, DownloadPNGHelper, getTotalPixels } from '@/helpers/helpers';
 import { PeyoteGrid } from './PeyoteGrid';
 import { RectGrid } from './RectGrid';
 import * as THREE from 'three';
-import { lightGray } from "../styles/colors";
+import { lightGray } from "../../app/colors";
 import { GridOverlay } from './GridOverlay';
 import { Zoom } from './common/Zoom';
 
@@ -53,10 +53,8 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
 
     const [zoom, setZoom] = useState(50);
     const [mouseDown, setMouseDown] = useState(false);
-    const [selectedSwatch, setSelectedSwatch] = useState<string | null>(null);
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
     const cameraRef = useRef<THREE.OrthographicCamera | null>(null);
-    const totalPixels = getTotalPixels(gridWidth, gridHeight, peyoteActive);
 
     useEffect(() => {
         if (cameraRef.current) {
@@ -65,7 +63,9 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
         }
     }, [zoom]);
 
-    useEffect(() => {
+    const totalPixels = getTotalPixels(gridWidth, gridHeight, peyoteActive);
+
+    const handleGridSizeChange = () => {
         if (pixels.length !== totalPixels) {
             setPixels((prev: string[]) => {
                 const arr = Array.isArray(prev) ? prev : [] as string[];
@@ -74,7 +74,9 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
                 return arr;
             });
         }
-    }, [totalPixels, pixels.length, setPixels]);
+    };
+
+    handleGridSizeChange();
 
     useImperativeHandle(ref, () => ({
         getCanvasDataURL: () => {
@@ -83,19 +85,15 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
         }
     }));
 
-    useEffect(() => {
-        if (selectedSwatch && color !== selectedSwatch) {
-            setSelectedSwatch(null);
-        }
-    }, [color, selectedSwatch]);
+    const handleSelectSwatch = (c: string | null) => {
+        if (c) setColor(c);
+    };
 
-    useEffect(() => {
-        if (selectedSwatch && !paletteColors.includes(selectedSwatch)) {
-            setSelectedSwatch(null);
-        }
-    }, [paletteColors, selectedSwatch]);
+    const handleRemovePaletteColor = (c: string) => {
+        if (onRemovePaletteColor) onRemovePaletteColor(c);
+    };
 
-
+    const selectedSwatch: string | null = paletteColors.includes(color) ? color : null;
 
     const handlePixelPaint = (idx: number) => {
         if (!mouseDown) return;
@@ -116,19 +114,12 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
     return (
         <GridContainer>
             <Zoom setZoom={setZoom} />
-            {paletteColors && paletteColors.length > 0 && (
-                <Palette
-                    colors={paletteColors}
-                    selected={selectedSwatch}
-                    setSelected={setSelectedSwatch}
-                    setColor={setColor}
-                    onRemoveColor={onRemovePaletteColor ? (c: string) => {
-                        onRemovePaletteColor(c);
-                        if (selectedSwatch === c) setSelectedSwatch(null);
-                    } : undefined}
-
-                />
-            )}
+            <Palette
+                colors={paletteColors}
+                selected={selectedSwatch}
+                onSelect={handleSelectSwatch}
+                onRemove={handleRemovePaletteColor}
+            />
             <Canvas
                 orthographic
                 camera={{ zoom, position: [0, 0, 100] }}
@@ -137,6 +128,8 @@ export const Grid = forwardRef(function Grid(props: GridProps, ref) {
                     rendererRef.current = gl;
                     if ((camera as THREE.Camera).type === "OrthographicCamera") {
                         cameraRef.current = camera as THREE.OrthographicCamera;
+                        cameraRef.current.zoom = zoom;
+                        cameraRef.current.updateProjectionMatrix();
                     }
                 }}
                 onPointerDown={() => setMouseDown(true)}

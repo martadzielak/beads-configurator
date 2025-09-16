@@ -3,18 +3,11 @@ import { PaletteContainer, PaletteSwatch, PaletteDeleteButton, PaletteDeleteIcon
 type PaletteProps = {
     colors: string[];
     selected: string | null;
-    setSelected: (color: string | null) => void;
-    setColor: (color: string) => void;
-    onRemoveColor?: (color: string) => void;
+    onSelect: (color: string | null) => void;
+    onRemove?: (color: string) => void;
 };
 
-export const Palette = ({
-    colors,
-    selected,
-    setSelected,
-    setColor,
-    onRemoveColor
-}: PaletteProps) =>
+export const Palette = ({ colors, selected, onSelect, onRemove }: PaletteProps) => (
     <PaletteContainer>
         {colors.map((c, i) => (
             <PaletteSwatch
@@ -22,22 +15,20 @@ export const Palette = ({
                 $color={c}
                 $selected={selected === c}
                 title={c}
-                onClick={() => {
-                    setSelected(c);
-                    setColor(c);
-                }}
+                onClick={() => onSelect(c)}
             />
         ))}
-        {selected && onRemoveColor && (
+        {selected && onRemove && (
             <PaletteDeleteButton
                 aria-label="Remove selected color"
                 title="Remove selected color"
                 onClick={() => {
-                    onRemoveColor(selected);
-                    setSelected(null);
+                    onRemove(selected);
+                    onSelect(null);
                 }}
             >
                 <PaletteDeleteIcon>×</PaletteDeleteIcon>
             </PaletteDeleteButton>
         )}
     </PaletteContainer>
+);

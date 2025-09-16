@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { white, mediumGray, lightGray, darkGray, black, red } from "./colors";
+import { white, mediumGray, lightGray, darkGray, black, red } from "../../app/colors";
 
 export const GlobalContainer = styled.div`
   display: flex;

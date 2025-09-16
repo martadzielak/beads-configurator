@@ -1,4 +1,4 @@
-import { mediumGray, red, white } from "@/components/styles/colors";
+import { mediumGray, red, white } from "@/app/colors";
 import { SectionHeading } from "../../styles/styled";
 
 interface GUISectionContainerProps {

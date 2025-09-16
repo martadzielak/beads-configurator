@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { darkGray, mediumGray, white } from "./colors";
+import { darkGray, mediumGray, white } from "../../app/colors";
 
 const spin = keyframes`
   0% { transform: rotate(0deg); }
